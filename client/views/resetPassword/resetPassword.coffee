@@ -1,8 +1,12 @@
 Template.entryResetPassword.helpers
-  error: -> Session.get('entryError')
+  error: -> 
+    Session.get('entryError')
 
   logo: ->
-    Meteor.call('entryLogo')
+    console.log('logo', AccountsEntry.settings.logo)
+    #Meteor.call('entryLogo')
+    AccountsEntry.settings.logo
+    
 
 Template.entryResetPassword.events
 
