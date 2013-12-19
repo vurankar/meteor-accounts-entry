@@ -40,6 +40,9 @@ Template.entrySignUp.helpers
 
     _.contains(['USERNAME_AND_OPTIONAL_EMAIL'], fields)
 
+  processing: ->
+    Session.get('_accountsEntryProcessing')
+
 Template.entrySignUp.events
   'submit #signUp': (event, t) ->
     event.preventDefault()
@@ -108,6 +111,7 @@ Template.entrySignUp.events
       Session.set('entryError', 'Signup code is required')
       return
 
+    Session.set('_accountsEntryProcessing', true)
     Meteor.call('entryValidateSignupCode', signupCode, (err, valid) ->
       if err
         console.log err
@@ -115,8 +119,8 @@ Template.entrySignUp.events
         Meteor.call('accountsCreateUser', username, email, password, (err, data) ->
           if err
             Session.set('entryError', err.reason)
+            Session.set('_accountsEntryProcessing', false)
             return
-
 
           #login on client
           if  _.contains([
@@ -127,10 +131,12 @@ Template.entrySignUp.events
           else
             Meteor.loginWithPassword(username, password)
 
+          Session.set('_accountsEntryProcessing', false)
           Router.go AccountsEntry.settings.dashboardRoute
         )
       else
         Session.set('entryError', 'Signup code is incorrect')
+        Session.set('_accountsEntryProcessing', false)
         return
     )
 

@@ -5,6 +5,9 @@ Template.entryForgotPassword.helpers
     #Meteor.call('entryLogo')
     AccountsEntry.settings.logo
 
+  processing: ->
+    Session.get('_accountsEntryProcessing')
+
 Template.entryForgotPassword.events
   'submit #forgotPassword': (event) ->
     event.preventDefault()
@@ -14,6 +17,8 @@ Template.entryForgotPassword.events
       Session.set('entryError', 'Email is required')
       return
 
+    Session.set('_accountsEntryProcessing', true)
+    
     Accounts.forgotPassword({
       email: Session.get('email')
       }, (error)->
@@ -21,4 +26,5 @@ Template.entryForgotPassword.events
           Session.set('entryError', error.reason)
         else
           Router.go AccountsEntry.settings.homeRoute
+        Session.set('_accountsEntryProcessing', false)
     )

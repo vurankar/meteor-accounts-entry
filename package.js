@@ -15,6 +15,7 @@ Package.on_use(function(api) {
     'spark',
     'session',
     'coffeescript',
+    'spin',
     'less']
   , 'client');
 
@@ -23,6 +24,8 @@ Package.on_use(function(api) {
     'client/entry.coffee',
     'client/entry.less',
     'client/helpers.coffee',
+    'client/views/lib/processing.html',
+    'client/views/lib/processing.less',
     'client/views/signIn/signIn.html',
     'client/views/signIn/signIn.coffee',
     'client/views/signUp/signUp.html',
