@@ -4,6 +4,10 @@ signUpErrorMap = {
   'Username already exists.': 'error.usernameAlreadyExists'
 }
 
+Template.entrySignUp.rendered = ->
+  $('[rel="tooltip"]').tooltip()
+  $('[rel="popover"]').popover()
+
 Template.entrySignUp.helpers
   showEmail: ->
     fields = AccountsEntry.settings.passwordSignupFields
@@ -15,7 +19,8 @@ Template.entrySignUp.helpers
 
   showUsername: ->
     fields = AccountsEntry.settings.passwordSignupFields
-
+    console.log("Show Username", fields)
+    
     _.contains([
       'USERNAME_AND_EMAIL',
       'USERNAME_AND_OPTIONAL_EMAIL',
