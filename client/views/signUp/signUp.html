@@ -62,14 +62,14 @@
         {{/if}}
         {{#if both}}
           <p class="entry-agreement">{{i18n "clickAgree"}}
-            <a href="{{privacyUrl}}">{{i18n "privacyPolicy"}}</a> {{i18n "and"}}
-            <a href="{{termsUrl}}">{{i18n "terms"}}</a>.
+            <a href="{{privacyUrl}}" target="_blank">{{i18n "privacyPolicy"}}</a> {{i18n "and"}}
+            <a href="{{termsUrl}}" target="_blank">{{i18n "terms"}}</a>.
           </p>
         {{else}}
           {{#unless neither}}
             <p class="entry-agreement">{{i18n "clickAgree"}}
-              {{#if privacyUrl}}<a href="{{privacyUrl}}">{{i18n "privacyPolicy"}}</a>.{{/if}}
-              {{#if termsUrl}}<a href="{{termsUrl}}">{{i18n "terms"}}</a>.{{/if}}
+              {{#if privacyUrl}}<a href="{{privacyUrl}}" target="_blank">{{i18n "privacyPolicy"}}</a>.{{/if}}
+              {{#if termsUrl}}<a href="{{termsUrl}}" target="_blank">{{i18n "terms"}}</a>.{{/if}}
             </p>
           {{/unless}}
         {{/if}}
