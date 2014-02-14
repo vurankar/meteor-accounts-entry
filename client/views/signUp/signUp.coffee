@@ -19,7 +19,6 @@ Template.entrySignUp.helpers
 
   showUsername: ->
     fields = AccountsEntry.settings.passwordSignupFields
-    console.log("Show Username", fields)
     
     _.contains([
       'USERNAME_AND_EMAIL',
