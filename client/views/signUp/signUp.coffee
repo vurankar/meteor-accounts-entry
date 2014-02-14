@@ -1,6 +1,12 @@
+signUpErrorMap = {
+  'User validation failed': 'error.userValidationFailed',
+  'Email already exists.': 'error.emailAlreadyExists',
+  'Username already exists.': 'error.usernameAlreadyExists'
+}
+
 Template.entrySignUp.helpers
   showEmail: ->
-    fields = Accounts.ui._options.passwordSignupFields
+    fields = AccountsEntry.settings.passwordSignupFields
 
     _.contains([
       'USERNAME_AND_EMAIL',
@@ -8,7 +14,7 @@ Template.entrySignUp.helpers
       'EMAIL_ONLY'], fields)
 
   showUsername: ->
-    fields = Accounts.ui._options.passwordSignupFields
+    fields = AccountsEntry.settings.passwordSignupFields
 
     _.contains([
       'USERNAME_AND_EMAIL',
@@ -36,7 +42,7 @@ Template.entrySignUp.helpers
     !AccountsEntry.settings.termsUrl
 
   emailIsOptional: ->
-    fields = Accounts.ui._options.passwordSignupFields
+    fields = AccountsEntry.settings.passwordSignupFields
 
     _.contains(['USERNAME_AND_OPTIONAL_EMAIL'], fields)
 
@@ -49,7 +55,7 @@ Template.entrySignUp.events
 
     username =
       if t.find('input[name="username"]')
-        t.find('input[name="username"]').value
+        t.find('input[name="username"]').value.toLowerCase()
       else
         undefined
 
@@ -62,7 +68,7 @@ Template.entrySignUp.events
     email = t.find('input[type="email"]').value
     password = t.find('input[type="password"]').value
 
-    fields = Accounts.ui._options.passwordSignupFields
+    fields = AccountsEntry.settings.passwordSignupFields
 
     trimInput = (val)->
       val.replace /^\s*|\s*$/g, ""
@@ -71,11 +77,11 @@ Template.entrySignUp.events
       errMsg = []
       msg = false
       if password.length < 7
-        errMsg.push "7 character minimum password."
+        errMsg.push i18n("error.minChar")
       if password.search(/[a-z]/i) < 0
-        errMsg.push "Password requires 1 letter."
+        errMsg.push i18n("error.pwOneLetter")
       if password.search(/[0-9]/) < 0
-        errMsg.push "Password must have at least one digit."
+        errMsg.push i18n("error.pwOneDigit")
 
       if errMsg.length > 0
         msg = ""
@@ -99,43 +105,58 @@ Template.entrySignUp.events
       'USERNAME_AND_EMAIL',
       'USERNAME_ONLY'], fields)
 
-    if usernameRequired && email.length is 0
-      Session.set('entryError', 'Username is required')
+    if usernameRequired && username.length is 0
+      Session.set('entryError', i18n("error.usernameRequired"))
       return
 
     if emailRequired && email.length is 0
-      Session.set('entryError', 'Email is required')
+      Session.set('entryError', i18n("error.emailRequired"))
       return
 
     if AccountsEntry.settings.showSignupCode && signupCode.length is 0
-      Session.set('entryError', 'Signup code is required')
+      Session.set('entryError', i18n("error.signupCodeRequired"))
       return
 
     Session.set('_accountsEntryProcessing', true)
+
     Meteor.call('entryValidateSignupCode', signupCode, (err, valid) ->
       if err
         console.log err
       if valid
-        Meteor.call('accountsCreateUser', username, email, password, (err, data) ->
+        newUserData =
+          email: email
+          password: password
+          profile: AccountsEntry.settings.defaultProfile || {}
+        if username
+          newUserData.username = username
+        Accounts.createUser newUserData, (err, data) ->
           if err
-            Session.set('entryError', err.reason)
+            errorMsg = signUpErrorMap[err.reason]
+            errorMsg = 'error.unknown' if errorMsg is undefined
+            Session.set('entryError', i18n(errorMsg))
             Session.set('_accountsEntryProcessing', false)
             return
-
           #login on client
           if  _.contains([
             'USERNAME_AND_EMAIL',
-            'USERNAME_AND_OPTIONAL_EMAIL',
-            'EMAIL_ONLY'], Accounts.ui._options.passwordSignupFields)
-            Meteor.loginWithPassword(email, password)
+            'EMAIL_ONLY'], AccountsEntry.settings.passwordSignupFields)
+            Meteor.loginWithPassword(email, password, (error) ->
+              if error
+                Session.set('entryError', i18n("error.unknown"))
+              else
+                Router.go AccountsEntry.settings.dashboardRoute
+            )
           else
-            Meteor.loginWithPassword(username, password)
-
-          Session.set('_accountsEntryProcessing', false)
-          Router.go AccountsEntry.settings.dashboardRoute
-        )
+            Meteor.loginWithPassword(username, password, (error) ->
+              if error
+                Session.set('entryError', i18n("error.unknown"))
+                Session.set('_accountsEntryProcessing', false)
+              else
+                Session.set('_accountsEntryProcessing', false)
+                Router.go AccountsEntry.settings.dashboardRoute
+            )
       else
-        Session.set('entryError', 'Signup code is incorrect')
+        Session.set('entryError', i18n("error.signupCodeIncorrect"))
         Session.set('_accountsEntryProcessing', false)
         return
     )

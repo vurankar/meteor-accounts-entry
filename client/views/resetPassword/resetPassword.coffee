@@ -3,10 +3,7 @@ Template.entryResetPassword.helpers
     Session.get('entryError')
 
   logo: ->
-    console.log('logo', AccountsEntry.settings.logo)
-    #Meteor.call('entryLogo')
     AccountsEntry.settings.logo
-    
 
 Template.entryResetPassword.events
 

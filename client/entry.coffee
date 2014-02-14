@@ -3,17 +3,24 @@ AccountsEntry =
     wrapLinks: true
     homeRoute: '/home'
     dashboardRoute: '/dashboard'
+    passwordSignupFields: 'EMAIL_ONLY'
 
   config: (appConfig) ->
     @settings = _.extend(@settings, appConfig)
 
-    if appConfig.signUpTemplate
-      Router.routes = _.reject Router.routes, (e, i) ->
-        e.name is 'entrySignUp'
+    i18n.setDefaultLanguage "en"
+    if appConfig.language
+      i18n.setLanguage appConfig.language
 
-      Router.map ->
-        @route 'signUp',
-          path: 'sign-up',
-          template: appConfig.signUpTemplate
+    if appConfig.signUpTemplate
+      signUpRoute = Router.routes['entrySignUp']
+      signUpRoute.options.template = appConfig.signUpTemplate
+
+  signInRequired: (router, extraCondition) ->
+    extraCondition ?= true
+    unless Meteor.user() and extraCondition
+      Router.go('/sign-in')
+      Session.set('entryError', i18n('error.signInRequired'))
+      router.stop()
 
 @AccountsEntry = AccountsEntry
