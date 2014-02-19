@@ -1,12 +1,8 @@
-signUpErrorMap = {
-  'User validation failed': 'error.userValidationFailed',
-  'Email already exists.': 'error.emailAlreadyExists',
-  'Username already exists.': 'error.usernameAlreadyExists'
-}
 
 Template.entrySignUp.rendered = ->
   $('[rel="tooltip"]').tooltip()
   $('[rel="popover"]').popover()
+
 
 Template.entrySignUp.helpers
   showEmail: ->
@@ -128,16 +124,13 @@ Template.entrySignUp.events
         console.log err
       if valid
         newUserData =
+          username: username
           email: email
           password: password
           profile: AccountsEntry.settings.defaultProfile || {}
-        if username
-          newUserData.username = username
         Accounts.createUser newUserData, (err, data) ->
           if err
-            errorMsg = signUpErrorMap[err.reason]
-            errorMsg = 'error.unknown' if errorMsg is undefined
-            Session.set('entryError', i18n(errorMsg))
+            T9NHelper.accountsError err
             Session.set('_accountsEntryProcessing', false)
             return
           #login on client
@@ -146,15 +139,18 @@ Template.entrySignUp.events
             'EMAIL_ONLY'], AccountsEntry.settings.passwordSignupFields)
             Meteor.loginWithPassword(email, password, (error) ->
               if error
-                Session.set('entryError', i18n("error.unknown"))
+                T9NHelper.accountsError error
               else
                 Router.go AccountsEntry.settings.dashboardRoute
             )
           else
             Meteor.loginWithPassword(username, password, (error) ->
               if error
-                Session.set('entryError', i18n("error.unknown"))
+                T9NHelper.accountsError error
                 Session.set('_accountsEntryProcessing', false)
+              else if Session.get('fromWhere')
+                Router.go Session.get('fromWhere')
+                Session.set('fromWhere', undefined)
               else
                 Session.set('_accountsEntryProcessing', false)
                 Router.go AccountsEntry.settings.dashboardRoute
