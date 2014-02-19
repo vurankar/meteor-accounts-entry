@@ -9,6 +9,7 @@ Package.on_use(function(api) {
     'deps',
     'service-configuration',
     'accounts-base',
+    'accounts-t9n',
     'underscore',
     'templating',
     'handlebars',
