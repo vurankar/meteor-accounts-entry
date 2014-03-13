@@ -23,3 +23,10 @@ See more in our [documentation](http://github.differential.io/accounts-entry/).
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/BeDifferential/accounts-entry/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
+
+### Updating from original
+
+    git fetch bedifferential
+    git pull bedifferential master
+
+Deal with conflicts

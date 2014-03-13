@@ -40,7 +40,7 @@
             {{#if showEmail}}
               <div class="form-group">
                 <label>{{i18n "emailAddress"}}</label>
-                <input autofocus type="email" class="form-control" value=''>
+                <input {{#unless showUsername}}autofocus{{/unless}} type="email" class="form-control" value=''>
               </div>
             {{/if}}
 
@@ -57,7 +57,7 @@
               </div>
             {{/if}}
 
-            <button type="submit" class="submit btn btn-default">{{i18n "signUp"}}</button>
+            <button type="submit" class="submit btn btn-block btn-default">{{i18n "signUp"}}</button>
           </form>
         {{/if}}
         {{#if both}}

@@ -4,6 +4,12 @@ AccountsEntry =
     homeRoute: '/home'
     dashboardRoute: '/dashboard'
     passwordSignupFields: 'EMAIL_ONLY'
+    emailToLower: true
+    usernameToLower: false
+
+  isStringEmail: (email) ->
+    emailPattern = /^([\w.-]+)@([\w.-]+)\.([a-zA-Z.]{2,6})$/i 
+    if email.match emailPattern then true else false
 
   config: (appConfig) ->
     @settings = _.extend(@settings, appConfig)
@@ -30,7 +36,6 @@ AccountsEntry =
 class @T9NHelper
 
   @translate: (code) ->
-#    console.log "translate: #{code}"
     T9n.get code, "error.accounts"
 
   @accountsError: (err) ->
