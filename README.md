@@ -30,3 +30,7 @@ See more in our [documentation](http://github.differential.io/accounts-entry/).
     git pull bedifferential master
 
 Deal with conflicts
+
+    git commit -a -m "..."
+    git push
+
