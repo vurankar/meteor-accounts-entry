@@ -1,10 +1,10 @@
 # accounts-entry
 
-[![Build Status](https://travis-ci.org/BeDifferential/accounts-entry.png)](https://travis-ci.org/BeDifferential/accounts-entry)
+[![Build Status](https://travis-ci.org/Differential/accounts-entry.png)](https://travis-ci.org/Differential/accounts-entry)
 
 A meteorite package that relies on Iron Router and provides an
 alternative interface to accounts-ui, with whole pages for sign up
-and sign in. 
+and sign in.
 
 We wanted something to work with that used [Iron Router](https://github.com/EventedMind/iron-router),
 [Bootstrap 3](https://github.com/mangasocial/meteor-bootstrap-3), and didn't require the forcing of
@@ -19,7 +19,6 @@ links):
 * Email team@differential.io to add your project to the list.
 
 See more in our [documentation](http://github.differential.io/accounts-entry/).
-
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/BeDifferential/accounts-entry/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
