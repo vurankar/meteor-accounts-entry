@@ -11,7 +11,7 @@ Package.on_use(function(api) {
     'accounts-base',
     'underscore',
     'templating',
-    'handlebars',
+    //'ui',
     'session',
     'coffeescript',
     'spin',
@@ -68,7 +68,7 @@ Package.on_use(function(api) {
 
 Package.on_test(function (api) {
   api.use(['tinytest',
-            'handlebars',
+            'ui',
             'test-helpers',
             'templating',
             'mongo-livedata',
