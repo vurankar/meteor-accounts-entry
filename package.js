@@ -11,7 +11,7 @@ Package.on_use(function(api) {
     'accounts-base',
     'underscore',
     'templating',
-    //'ui',
+    'ui',
     'session',
     'coffeescript',
     'spin',
