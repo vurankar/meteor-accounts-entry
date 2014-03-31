@@ -14,6 +14,7 @@ Package.on_use(function(api) {
     'ui',
     'session',
     'coffeescript',
+    'coffee-alerts',
     'spin',
     'less']
   , 'client');

@@ -16,3 +16,4 @@ Template.entryResetPassword.events
       else
         Session.set('resetToken', null)
         Router.go AccountsEntry.settings.dashboardRoute
+
