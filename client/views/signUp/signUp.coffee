@@ -49,6 +49,10 @@ Template.entrySignUp.helpers
   processing: ->
     Session.get('_accountsEntryProcessing')
 
+  emailAddress: ->
+    Session.get('email')
+
+
 Template.entrySignUp.events
   'submit #signUp': (event, t) ->
     event.preventDefault()
@@ -152,7 +156,7 @@ Template.entrySignUp.events
               T9NHelper.accountsError error
             else if Session.get 'fromWhere'
               Router.go Session.get('fromWhere')
-              Session.set 'fromWhere', undefined 
+              Session.set 'fromWhere', undefined
             else
               Router.go AccountsEntry.settings.dashboardRoute
       else
@@ -160,5 +164,3 @@ Template.entrySignUp.events
         Session.set 'entryError', i18n("error.signupCodeIncorrect")
         Session.set('_accountsEntryProcessing', false)
         return
-
-

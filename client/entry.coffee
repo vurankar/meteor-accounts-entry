@@ -9,15 +9,15 @@ AccountsEntry =
     entrySignUp: '/sign-up'
 
   isStringEmail: (email) ->
-    emailPattern = /^([\w.-]+)@([\w.-]+)\.([a-zA-Z.]{2,6})$/i 
+    emailPattern = /^([\w.-]+)@([\w.-]+)\.([a-zA-Z.]{2,6})$/i
     if email.match emailPattern then true else false
 
   config: (appConfig) ->
     @settings = _.extend(@settings, appConfig)
 
-    i18n.setDefaultLanguage "en"
+    T9n.defaultLanguage = "en"
     if appConfig.language
-      i18n.setLanguage appConfig.language
+      T9n.language = appConfig.language
 
     if appConfig.signUpTemplate
       signUpRoute = Router.routes['entrySignUp']
@@ -25,11 +25,12 @@ AccountsEntry =
 
   signInRequired: (router, extraCondition) ->
     extraCondition ?= true
-    unless Meteor.user() and extraCondition
-      Session.set('fromWhere', router.path)
-      Router.go('/sign-in')
-      Session.set('entryError', i18n('error.signInRequired'))
-      router.stop()
+    unless Meteor.loggingIn()
+      unless Meteor.user() and extraCondition
+        Session.set('fromWhere', router.path)
+        Router.go('/sign-in')
+        Session.set('entryError', i18n('error.signInRequired'))
+        router.pause()
 
 @AccountsEntry = AccountsEntry
 
