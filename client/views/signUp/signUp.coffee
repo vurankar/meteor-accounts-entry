@@ -4,7 +4,7 @@ Template.entrySignUp.rendered = ->
   $('[rel="popover"]').popover()
 
 
-Template.entrySignUp.helpers
+AccountsEntry.entrySignUpHelpers = 
   showEmail: ->
     fields = AccountsEntry.settings.passwordSignupFields
 
@@ -53,7 +53,8 @@ Template.entrySignUp.helpers
     Session.get('email')
 
 
-Template.entrySignUp.events
+
+AccountsEntry.entrySignUpEvents = 
   'submit #signUp': (event, t) ->
     event.preventDefault()
 
@@ -164,3 +165,8 @@ Template.entrySignUp.events
         Session.set 'entryError', t9n("error.signupCodeIncorrect")
         Session.set('_accountsEntryProcessing', false) 
         return
+
+
+Template.entrySignUp.helpers(AccountsEntry.entrySignUpHelpers)
+
+Template.entrySignUp.events(AccountsEntry.entrySignUpEvents)
