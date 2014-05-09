@@ -74,19 +74,17 @@ Router.map ->
 
 
   # TEP:  Add for it seems the normal URL gets swallowed
-  @route 'verifyEmail',
+  @route 'entryVerifyEmail',
     path: 'verify-email/:token'
     onBeforeAction: (pause) ->
-      console.log("verifyEmail")
       try
         Accounts.verifyEmail @params.token, ->
-          console.log("Verify Email Run")
+          console.log("Email Verified")
           AccountsEntry?.settings?.verifyEmailCallback?()
       catch e
         console.log("Email verify error", e)
         AccountsEntry?.settings?.verifyEmailCallback?(e)
       if AccountsEntry?.settings?.homeRoute?
-        console.log('verifyEmail go home')
         Router.go AccountsEntry.settings.homeRoute
       pause()
 
