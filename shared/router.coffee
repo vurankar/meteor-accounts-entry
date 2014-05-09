@@ -71,3 +71,22 @@ Router.map ->
     onBeforeAction: ->
       Session.set('entryError', undefined)
       Session.set('resetToken', @params.resetToken)
+
+
+  # TEP:  Add for it seems the normal URL gets swallowed
+  @route 'verifyEmail',
+    path: 'verify-email/:token'
+    onBeforeAction: (pause) ->
+      console.log("verifyEmail")
+      try
+        Accounts.verifyEmail @params.token, ->
+          console.log("Verify Email Run")
+          AccountsEntry?.settings?.verifyEmailCallback?()
+      catch e
+        console.log("Email verify error", e)
+        AccountsEntry?.settings?.verifyEmailCallback?(e)
+      if AccountsEntry?.settings?.homeRoute?
+        console.log('verifyEmail go home')
+        Router.go AccountsEntry.settings.homeRoute
+      pause()
+
