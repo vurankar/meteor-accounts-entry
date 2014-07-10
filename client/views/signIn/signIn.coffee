@@ -40,7 +40,6 @@ AccountsEntry.entrySignInEvents = {
 
     Meteor.loginWithPassword(Session.get('email'), Session.get('password'), (error)->
       Session.set('password', undefined)
-      console.log("login", Session.get('fromWhere'), AccountsEntry.settings.dashboardRoute)
       if error
         T9NHelper.accountsError error
       else if Session.get('fromWhere')
