@@ -1,7 +1,7 @@
 
-Template.entrySignUp.rendered = ->
-  $('[rel="tooltip"]').tooltip()
-  $('[rel="popover"]').popover()
+AccountsEntry.hashPassword = (password) ->
+  digest: SHA256(password),
+  algorithm: "sha-256"
 
 
 AccountsEntry.entrySignUpHelpers = 
@@ -81,6 +81,9 @@ AccountsEntry.entrySignUpEvents =
         undefined
     if AccountsEntry.settings.emailToLower and email then email = email.toLowerCase()
 
+    formValues = SimpleForm.processForm(event.target)
+    extraFields = _.pluck(AccountsEntry.settings.extraSignUpFields, 'name')
+    filteredExtraFields = _.pick(formValues, extraFields)
     password = t.find('input[type="password"]').value
 
     fields = AccountsEntry.settings.passwordSignupFields
@@ -139,10 +142,11 @@ AccountsEntry.entrySignUpEvents =
         newUserData =
           username: username
           email: email
-          password: password
-          profile: AccountsEntry.settings.defaultProfile || {}
-        Accounts.createUser newUserData, (err, data) ->
+          password: AccountsEntry.hashPassword(password)
+          profile: filteredExtraFields
+        Meteor.call 'entryCreateUser', newUserData, (err, data) ->
           if err
+            console.log err
             T9NHelper.accountsError err
             Session.set('_accountsEntryProcessing', false)
             return
@@ -154,6 +158,7 @@ AccountsEntry.entrySignUpEvents =
           Meteor.loginWithPassword userCredential, password, (error) ->
             Session.set('_accountsEntryProcessing', false)
             if error
+              console.log err
               T9NHelper.accountsError error
             else if Session.get 'fromWhere'
               Router.go Session.get('fromWhere')
@@ -166,6 +171,10 @@ AccountsEntry.entrySignUpEvents =
         Session.set('_accountsEntryProcessing', false) 
         return
 
+
+Template.entrySignUp.rendered = ->
+  $('[rel="tooltip"]').tooltip()
+  $('[rel="popover"]').popover()
 
 Template.entrySignUp.helpers(AccountsEntry.entrySignUpHelpers)
 

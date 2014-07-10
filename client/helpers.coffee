@@ -9,6 +9,7 @@ UI.registerHelper "signedInAs", (date) ->
   else
     "Signed In"
 
+
 UI.registerHelper 'accountButtons', ->
   Template.entryAccountButtons
 
@@ -16,10 +17,14 @@ UI.registerHelper 'capitalize', (str) ->
   str.charAt(0).toUpperCase() + str.slice(1)
 
 UI.registerHelper 'signupClass', ->
-  if Accounts.oauth && Accounts.oauth.serviceNames().length > 0
+  if AccountsEntry.settings.showOtherLoginServices && Accounts.oauth && Accounts.oauth.serviceNames().length > 0
     "collapse"
 
+UI.registerHelper 'signedIn', ->
+  return true if Meteor.user()
+
 UI.registerHelper 'otherLoginServices', ->
+  AccountsEntry.settings.showOtherLoginServices &&
   Accounts.oauth &&
   Accounts.oauth.serviceNames().length > 0
 
@@ -31,3 +36,6 @@ UI.registerHelper 'showSignupCode', ->
 
 UI.registerHelper 'passwordLoginService', ->
   !!Package['accounts-password']
+
+UI.registerHelper 'showCreateAccountLink', ->
+  return !Accounts._options.forbidClientAccountCreation

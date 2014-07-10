@@ -8,7 +8,7 @@
   "packages": {
     "iron-router": {
     },
-    "accounts-t9n": {
-    }
+    "accounts-t9n": "0.0.5",
+    "simple-form": ""
   }
 }
