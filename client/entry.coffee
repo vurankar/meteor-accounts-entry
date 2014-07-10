@@ -10,6 +10,8 @@ AccountsEntry =
     extraSignUpFields: []
     showOtherLoginServices: true
 
+  routeNames: ["entrySignIn", "entrySignUp", "entryForgotPassword", "entrySignOut", 'entryResetPassword', 'entryVerifyEmail']
+
   isStringEmail: (email) ->
     emailPattern = /^([\w.-]+)@([\w.-]+)\.([a-zA-Z.]{2,6})$/i
     if email.match emailPattern then true else false
@@ -29,7 +31,8 @@ AccountsEntry =
     extraCondition ?= true
     unless Meteor.loggingIn()
       unless Meteor.user() and extraCondition
-        Session.set('fromWhere', router.path)
+        if Router.current().route?.name not in AccountsEntry.routeNames
+          Session.set('fromWhere', router.path)
         Router.go('/sign-in')
         Session.set('entryError', t9n('error.signInRequired'))
         pause.call()

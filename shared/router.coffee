@@ -1,3 +1,5 @@
+
+
 Router.map ->
 
   @route "entrySignIn",
@@ -5,7 +7,8 @@ Router.map ->
     onBeforeAction: ->
       Session.set('entryError', undefined)
       Session.set('buttonText', 'in')
-      Session.set('fromWhere', Router.current().path)
+      if Router.current().route?.name not in AccountsEntry.routeNames
+        Session.set('fromWhere', Router.current().path)
     onRun: ->
       if Meteor.userId()
         Router.go AccountsEntry.settings.dashboardRoute
