@@ -1,11 +1,13 @@
 Template.entryForgotPassword.helpers
-  error: -> t9n(Session.get('entryError'))
+  error: -> 
+    t9n(Session.get('entryError'))
 
   logo: ->
     AccountsEntry.settings.logo
 
   processing: ->
     Session.get('_accountsEntryProcessing')
+
 
 Template.entryForgotPassword.events
   'submit #forgotPassword': (event) ->

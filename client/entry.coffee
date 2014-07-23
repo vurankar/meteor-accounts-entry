@@ -33,9 +33,10 @@ AccountsEntry =
       unless Meteor.user() and extraCondition
         if Router.current().route?.name not in AccountsEntry.routeNames
           Session.set('fromWhere', router.path)
-        Router.go('/sign-in')
-        Session.set('entryError', t9n('error.signInRequired'))
-        pause.call()
+          Router.go('/sign-in')
+          #Session.set('entryError', t9n('error.signInRequired'))
+          pause()
+        
 
 @AccountsEntry = AccountsEntry
 
