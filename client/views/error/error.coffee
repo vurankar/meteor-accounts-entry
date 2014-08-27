@@ -1,3 +1,4 @@
 Template.entryError.helpers
- error: ->
-   Session.get('entryError')
+  error: ->
+    console.log("entryError", Session.get('entryError'))
+    Session.get('entryError')

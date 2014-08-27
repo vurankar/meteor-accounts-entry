@@ -28,6 +28,7 @@ AccountsEntry.entrySignInHelpers = {
 
 AccountsEntry.entrySignInEvents = {
   'submit #signIn': (event) ->
+    console.log("sign in")
     event.preventDefault()
 
     email = $('input[name="email"]').val()

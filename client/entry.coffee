@@ -48,3 +48,5 @@ class @T9NHelper
 
   @accountsError: (err) ->
     Session.set 'entryError', @translate err.reason
+    
+
