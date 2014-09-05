@@ -10,7 +10,7 @@ Package.onUse(function(api) {
 
   api.use([
     'iron:router@0.9.1', 
-    'mrt:accounts-t9n@0.0.13',
+    'cunneen:accounts-t9n@0.0.18',
     'joshowens:simple-form@0.1.8'
   ], ['client', 'server']);
 

@@ -37,6 +37,10 @@
       "1.0.2"
     ],
     [
+      "cunneen:accounts-t9n",
+      "0.0.18"
+    ],
+    [
       "ddp",
       "1.0.8"
     ],
@@ -135,10 +139,6 @@
     [
       "mongo-livedata",
       "1.0.4"
-    ],
-    [
-      "mrt:accounts-t9n",
-      "0.0.13"
     ],
     [
       "mrt:underscore-string-latest",
