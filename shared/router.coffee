@@ -5,11 +5,11 @@ Router.map ->
   @route "entrySignIn",
     path: "/sign-in"
     onBeforeAction: ->
-      #Session.set('entryError', undefined)
+      Session.set('entryError', undefined)
       Session.set('buttonText', 'in')
       # TEP:  Added to make things work !?!?!
-      if Router.current().route?.name not in AccountsEntry.routeNames
-        Session.set('fromWhere', Router.current().path)
+      #if Router.current().route?.name not in AccountsEntry.routeNames
+      #  Session.set('fromWhere', Router.current().path)
     onRun: ->
       console.log("onRun")
       Session.set('entryError', undefined)
