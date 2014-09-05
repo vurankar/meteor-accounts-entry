@@ -5,6 +5,7 @@ entryAccountButtonsHelpers = {
 
 
   wrapLinksLi: ->
+    
     if AccountsEntry.settings.wrapLinks
       Template.wrapLinks
     else

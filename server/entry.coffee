@@ -33,4 +33,5 @@ Meteor.startup ->
           password: user.password
           profile: _.extend(profile, user.profile)
       if (user.email && Accounts._options.sendVerificationEmail)
+        @unblock()
         Accounts.sendVerificationEmail(userId, user.email)

@@ -7,10 +7,9 @@ Router.map ->
     onBeforeAction: ->
       #Session.set('entryError', undefined)
       Session.set('buttonText', 'in')
+      # TEP:  Added to make things work !?!?!
       if Router.current().route?.name not in AccountsEntry.routeNames
         Session.set('fromWhere', Router.current().path)
-    onRerun: ->
-      console.log("onRerun")
     onRun: ->
       console.log("onRun")
       Session.set('entryError', undefined)
@@ -83,7 +82,6 @@ Router.map ->
       Session.set('entryError', undefined)
       Session.set('resetToken', @params.resetToken)
 
-
   # TEP:  Add for it seems the normal URL gets swallowed
   @route 'entryVerifyEmail',
     path: 'verify-email/:token'
@@ -99,3 +97,13 @@ Router.map ->
         Router.go AccountsEntry.settings.homeRoute
       pause()
 
+
+# Get all the accounts-entry routes one time
+exclusions = [];
+_.each Router.routes, (route)->
+  exclusions.push route.name
+# Change the fromWhere session variable when you leave a path
+Router.onStop ->
+  # If the route is an entry route, no need to save it
+  if (!_.contains(exclusions, Router.current().route.name))
+    Session.set('fromWhere', Router.current().path)
