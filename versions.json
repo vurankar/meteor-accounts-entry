@@ -37,10 +37,6 @@
       "1.0.2"
     ],
     [
-      "cunneen:accounts-t9n",
-      "0.0.18"
-    ],
-    [
       "ddp",
       "1.0.8"
     ],
@@ -62,10 +58,6 @@
     ],
     [
       "geojson-utils",
-      "1.0.0"
-    ],
-    [
-      "handlebars",
       "1.0.0"
     ],
     [
@@ -195,6 +187,10 @@
     [
       "sha",
       "1.0.0"
+    ],
+    [
+      "softwarerero:accounts-t9n",
+      "0.0.17"
     ],
     [
       "spacebars",
