@@ -8,11 +8,14 @@ Package.describe({
 Package.onUse(function(api) {
   api.versionsFrom("METEOR@0.9.0");
 
+/*
   api.use([
     'iron:router@0.9.1', 
     'softwarerero:accounts-t9n@0.0.17',
     'joshowens:simple-form@0.1.8'
   ], ['client', 'server']);
+*/
+
 
   // CLIENT
   api.use([
@@ -84,6 +87,10 @@ Package.onUse(function(api) {
   api.imply('accounts-base', ['client', 'server']);
   api.imply('accounts-password', ['client', 'server']);
   api.export('AccountsEntry', ['client', 'server']);
+
+
+  api.use(['iron:router', 'mrt:accounts-t9n'], ['client', 'server']);
+  
   api.addFiles(['shared/router.coffee'], ['client', 'server']);
 
 });

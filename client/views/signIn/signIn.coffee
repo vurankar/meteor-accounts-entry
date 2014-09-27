@@ -12,11 +12,11 @@ AccountsEntry.entrySignInHelpers = {
       'USERNAME_AND_EMAIL'
       'USERNAME_AND_OPTIONAL_EMAIL'
       ], fields)
-      return t9n("usernameOrEmail")
+      return T9n.get("usernameOrEmail")
     else if fields == "USERNAME_ONLY"
-      return t9n("username")
+      return T9n.get("username")
 
-    return t9n("email")
+    return T9n.get("email")
 
   logo: ->
     AccountsEntry.settings.logo
