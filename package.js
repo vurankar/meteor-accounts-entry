@@ -1,6 +1,6 @@
 Package.describe({
     summary: "Make signin and signout their own pages with routes.",
-    version: '0.9.4',
+    version: '0.9.0_1',
     name: "pfafman:accounts-entry",
     git: 'https://github.com/pfafman/meteor-accounts-entry'
 });
@@ -90,7 +90,7 @@ Package.onUse(function(api) {
 
 
   api.use(['iron:router', 'mrt:accounts-t9n'], ['client', 'server']);
-  
+
   api.addFiles(['shared/router.coffee'], ['client', 'server']);
 
 });
