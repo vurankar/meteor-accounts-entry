@@ -101,6 +101,10 @@
       "0.9.3"
     ],
     [
+      "joshowens:simple-form",
+      "0.1.8"
+    ],
+    [
       "jquery",
       "1.0.0"
     ],
@@ -143,6 +147,10 @@
     [
       "mrt:accounts-t9n",
       "0.0.3"
+    ],
+    [
+      "mrt:underscore-string-latest",
+      "2.3.3"
     ],
     [
       "npm-bcrypt",
