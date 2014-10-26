@@ -5,13 +5,14 @@ Router.map ->
   @route "entrySignIn",
     path: "/sign-in"
     onBeforeAction: ->
-      Session.set('entryError', undefined)
+      console.log("AE:onBeforeAction")
+      #Session.set('entryError', undefined)
       Session.set('buttonText', 'in')
       # TEP:  Added to make things work !?!?!
       #if Router.current().route?.name not in AccountsEntry.routeNames
       #  Session.set('fromWhere', Router.current().path)
     onRun: ->
-      console.log("onRun")
+      console.log("AE:onRun")
       Session.set('entryError', undefined)
       if Meteor.userId()
         Router.go AccountsEntry.settings.dashboardRoute
@@ -39,9 +40,10 @@ Router.map ->
   @route "entrySignUp",
     path: "/sign-up"
     onBeforeAction: ->
-      Session.set('entryError', undefined)
+      #Session.set('entryError', undefined)
       Session.set('buttonText', 'up')
     onRun: ->
+      Session.set('entryError', undefined)
       if AccountsEntry.settings.signUpTemplate
         @template = AccountsEntry.settings.signUpTemplate
 
@@ -64,13 +66,16 @@ Router.map ->
 
   @route "entryForgotPassword",
     path: "/forgot-password"
-    onBeforeAction: ->
+    onRun: ->
       Session.set('entryError', undefined)
 
   @route 'entrySignOut',
     path: '/sign-out'
-    onBeforeAction: (pause)->
+    onRun: ->
+      console.log("AE:onRun")
       Session.set('entryError', undefined)
+    onBeforeAction: (pause)->
+      #Session.set('entryError', undefined)
       if AccountsEntry?.settings?.homeRoute?
         Meteor.logout () ->
           Router.go AccountsEntry.settings.homeRoute
@@ -78,8 +83,11 @@ Router.map ->
 
   @route 'entryResetPassword',
     path: 'reset-password/:resetToken'
-    onBeforeAction: ->
+    onRun: ->
+      console.log("AE:onRun")
       Session.set('entryError', undefined)
+    onBeforeAction: ->
+      #Session.set('entryError', undefined)
       Session.set('resetToken', @params.resetToken)
 
   # TEP:  Add for it seems the normal URL gets swallowed
@@ -100,7 +108,7 @@ Router.map ->
 
 if Meteor.isClient
   # Get all the accounts-entry routes one time
-  exclusions = [];
+  exclusions = []
   _.each Router.routes, (route)->
     exclusions.push route.name
   # Change the fromWhere session variable when you leave a path

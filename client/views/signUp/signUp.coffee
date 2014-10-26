@@ -60,7 +60,7 @@ AccountsEntry.entrySignUpEvents =
 
     username =
       if t.find('input[name="username"]')
-        t.find('input[name="username"]').value
+        t.find('input[name="username"]').value  # .value.toLowerCase() # TEP: WHY DID THEY HAVE THIS?@?@?@!?
       else
         undefined
     if username and AccountsEntry.settings.usernameToLower then username = username.toLowerCase()
