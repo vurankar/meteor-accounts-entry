@@ -4,7 +4,7 @@ AccountsEntry.hashPassword = (password) ->
   algorithm: "sha-256"
 
 
-AccountsEntry.entrySignUpHelpers = 
+AccountsEntry.entrySignUpHelpers =
   showEmail: ->
     fields = AccountsEntry.settings.passwordSignupFields
 
@@ -54,13 +54,13 @@ AccountsEntry.entrySignUpHelpers =
 
 
 
-AccountsEntry.entrySignUpEvents = 
+AccountsEntry.entrySignUpEvents =
   'submit #signUp': (event, t) ->
     event.preventDefault()
 
     username =
       if t.find('input[name="username"]')
-        t.find('input[name="username"]').value.toLowerCase()
+        t.find('input[name="username"]').value
       else
         undefined
     if username and AccountsEntry.settings.usernameToLower then username = username.toLowerCase()
@@ -147,7 +147,8 @@ AccountsEntry.entrySignUpEvents =
         Meteor.call 'entryCreateUser', newUserData, (err, data) ->
           if err
             console.log err
-            T9NHelper.accountsError err
+            Session.set('entryError', err.reason)
+            #T9NHelper.accountsError err
             Session.set('_accountsEntryProcessing', false)
             return
           #login on client
@@ -159,7 +160,8 @@ AccountsEntry.entrySignUpEvents =
             Session.set('_accountsEntryProcessing', false)
             if error
               console.log err
-              T9NHelper.accountsError error
+              Session.set('entryError', err.reason)
+              #T9NHelper.accountsError error
             else if Session.get 'fromWhere'
               Router.go Session.get('fromWhere')
               Session.set 'fromWhere', undefined
@@ -168,7 +170,7 @@ AccountsEntry.entrySignUpEvents =
       else
         console.log err
         Session.set 'entryError', t9n("error.signupCodeIncorrect")
-        Session.set('_accountsEntryProcessing', false) 
+        Session.set('_accountsEntryProcessing', false)
         return
 
 
