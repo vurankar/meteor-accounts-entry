@@ -1,7 +1,7 @@
 Template.entryForgotPassword.helpers
-  error: -> 
+  error: ->
     if Session.get('entryError')?
-      t9n(Session.get('entryError'))
+      Session.get('entryError')
 
   logo: ->
     AccountsEntry.settings.logo
@@ -21,13 +21,13 @@ Template.entryForgotPassword.events
 
     Session.set('_accountsEntryProcessing', true)
     
-    Accounts.forgotPassword({
+    Accounts.forgotPassword
       email: Session.get('email')
-      }, (error)->
-        if error
-          Session.set('entryError', error.reason)
-        else
-          CoffeeAlerts.success('An email was sent with a link to reset your password')
-          Router.go AccountsEntry.settings.homeRoute
-        Session.set('_accountsEntryProcessing', false)
-    )
+    , (error)->
+      if error
+        Session.set('entryError', error.reason)
+      else
+        CoffeeAlerts.success('An email was sent with a link to reset your password')
+        Router.go AccountsEntry.settings.homeRoute
+      Session.set('_accountsEntryProcessing', false)
+    
