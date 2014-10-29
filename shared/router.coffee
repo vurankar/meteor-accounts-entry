@@ -9,7 +9,7 @@ Router.map ->
       #Session.set('entryError', undefined)
       Session.set('buttonText', 'in')
       # TEP:  Added to make things work !?!?!
-      #if Router.current().route?.name not in AccountsEntry.routeNames
+      #if Router.current().route?.getName() not in AccountsEntry.routeNames
       #  Session.set('fromWhere', Router.current().path)
       @next()
     onRun: ->
@@ -122,7 +122,7 @@ if Meteor.isClient
   # Get all the accounts-entry routes one time
   exclusions = []
   _.each Router.routes, (route)->
-    exclusions.push route.name
+    exclusions.push route.getName()
   # Change the fromWhere session variable when you leave a path
   Router.onStop ->
     # If the route is an entry route, no need to save it
