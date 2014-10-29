@@ -43,7 +43,7 @@ AccountsEntry.entrySignInEvents = {
       Session.set('password', undefined)
       if error
         console.log("error on login", error)
-        Session.set('entryError', error.reason)
+        Session.set('entryError', T9n.get(error.reason))
         #T9NHelper.accountsError error
       else if Session.get('fromWhere')
         Router.go Session.get('fromWhere')

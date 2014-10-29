@@ -93,11 +93,11 @@ AccountsEntry.entrySignUpEvents =
       errMsg = []
       msg = false
       if password.length < 7
-        errMsg.push t9n("error.minChar")
+        errMsg.push T9n.get("error.minChar")
       if password.search(/[a-z]/i) < 0
-        errMsg.push t9n("error.pwOneLetter")
+        errMsg.push T9n.get("error.pwOneLetter")
       if password.search(/[0-9]/) < 0
-        errMsg.push t9n("error.pwOneDigit")
+        errMsg.push T9n.get("error.pwOneDigit")
 
       if errMsg.length > 0
         msg = ""
@@ -120,19 +120,19 @@ AccountsEntry.entrySignUpEvents =
       'USERNAME_ONLY'], fields)
 
     if usernameRequired && username.length is 0
-      Session.set('entryError', t9n("error.usernameRequired"))
+      Session.set('entryError', T9n.get("error.usernameRequired"))
       return
 
     if username && AccountsEntry.isStringEmail(username)
-      Session.set('entryError', t9n("error.usernameIsEmail"))
+      Session.set('entryError', T9n.get("error.usernameIsEmail"))
       return
 
     if emailRequired && email.length is 0
-      Session.set('entryError', t9n("error.emailRequired"))
+      Session.set('entryError', T9n.get("error.emailRequired"))
       return
 
     if AccountsEntry.settings.showSignupCode && signupCode.length is 0
-      Session.set('entryError', t9n("error.signupCodeRequired"))
+      Session.set('entryError', T9n.get("error.signupCodeRequired"))
       return
 
     Session.set('_accountsEntryProcessing', true)
@@ -169,7 +169,7 @@ AccountsEntry.entrySignUpEvents =
               Router.go AccountsEntry.settings.dashboardRoute
       else
         console.log err
-        Session.set 'entryError', t9n("error.signupCodeIncorrect")
+        Session.set 'entryError', T9n.get("error.signupCodeIncorrect")
         Session.set('_accountsEntryProcessing', false)
         return
 

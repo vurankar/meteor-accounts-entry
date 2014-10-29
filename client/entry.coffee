@@ -34,7 +34,7 @@ AccountsEntry =
         if Router.current().route?.getName() not in AccountsEntry.routeNames
           Session.set('fromWhere', router.route.path())
           Router.go('/sign-in')
-          #Session.set('entryError', t9n('error.signInRequired'))
+          #Session.set('entryError', T9n.get('error.signInRequired'))
     router.next()
         
 

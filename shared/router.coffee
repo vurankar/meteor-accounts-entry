@@ -37,6 +37,9 @@ Router.map ->
           Template[@template].events(AccountsEntry.entrySignInEvents)
           Template[@template].helpers(AccountsEntry.entrySignInHelpers)
         @next()
+    onStop: ->
+      Session.set('entryError', undefined)
+      
 
 
   @route "entrySignUp",
@@ -66,6 +69,8 @@ Router.map ->
         Template[@template].events(AccountsEntry.entrySignUpEvents)
         Template[@template].helpers(AccountsEntry.entrySignUpHelpers)
       @next()
+    onStop: ->
+      Session.set('entryError', undefined)
 
 
   @route "entryForgotPassword",
@@ -73,6 +78,9 @@ Router.map ->
     onRun: ->
       Session.set('entryError', undefined)
       @next()
+    onStop: ->
+      Session.set('entryError', undefined)
+
 
   @route 'entrySignOut',
     path: '/sign-out'
@@ -87,7 +95,9 @@ Router.map ->
           Router.go AccountsEntry.settings.homeRoute
       else
         @next()
-      
+    onStop: ->
+      Session.set('entryError', undefined)
+       
 
   @route 'entryResetPassword',
     path: 'reset-password/:resetToken'
@@ -99,6 +109,9 @@ Router.map ->
       #Session.set('entryError', undefined)
       Session.set('resetToken', @params.resetToken)
       @next()
+    onStop: ->
+      Session.set('entryError', undefined)
+
 
   # TEP:  Add for it seems the normal URL gets swallowed
   @route 'entryVerifyEmail',
@@ -115,6 +128,8 @@ Router.map ->
         Router.go AccountsEntry.settings.homeRoute
       else
         @next()
+    onStop: ->
+      Session.set('entryError', undefined)
       
 
 

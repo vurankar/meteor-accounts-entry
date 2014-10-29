@@ -4,9 +4,9 @@ Template.entrySocial.helpers
   buttonText: ->
     buttonText = Session.get('buttonText')
     if buttonText == 'up'
-      t9n 'signUp'
+      T9n.get 'signUp'
     else
-      t9n 'signIn'
+      T9n.get 'signIn'
 
   unconfigured: ->
     ServiceConfiguration.configurations.find({service: @toString()}).fetch().length is 0
