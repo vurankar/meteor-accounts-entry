@@ -9,7 +9,7 @@ Package.onUse(function(api) {
   api.versionsFrom("METEOR@0.9.0");
 
   // Not in master
-  api.use(['joshowens:simple-form'], ['client', 'server']);
+  api.use(['joshowens:simple-form@0.2.0'], ['client', 'server']);
 
   // CLIENT
   api.use([
@@ -21,7 +21,6 @@ Package.onUse(function(api) {
     'ui',
     'session',
     'coffeescript',
-    'joshowens:simple-form',
     'less',
     'sha',
     'pfafman:coffee-alerts',
@@ -83,7 +82,7 @@ Package.onUse(function(api) {
   api.imply('accounts-password', ['client', 'server']);
   api.export('AccountsEntry', ['client', 'server']);
 
-  api.use(['iron:router', 'mrt:accounts-t9n'], ['client', 'server']);
+  api.use(['iron:router@1.0.0', 'mrt:accounts-t9n'], ['client', 'server']);
 
   api.addFiles(['shared/router.coffee'], ['client', 'server']);
 
@@ -100,7 +99,7 @@ Package.onTest(function (api) {
     'coffeescript',
     'iron:router', 
     'mrt:accounts-t9n',
-    'joshowens:simple-form'
+    'joshowens:simple-form@0.2.0'
     ]);
   api.use('accounts-entry');
 

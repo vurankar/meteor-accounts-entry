@@ -11,30 +11,32 @@ Router.map ->
       # TEP:  Added to make things work !?!?!
       #if Router.current().route?.name not in AccountsEntry.routeNames
       #  Session.set('fromWhere', Router.current().path)
+      @next()
     onRun: ->
       console.log("AE:onRun")
       Session.set('entryError', undefined)
       if Meteor.userId()
         Router.go AccountsEntry.settings.dashboardRoute
+      else
+        if AccountsEntry.settings.signInTemplate
+          @template = AccountsEntry.settings.signInTemplate
 
-      if AccountsEntry.settings.signInTemplate
-        @template = AccountsEntry.settings.signInTemplate
+          # If the user has a custom template, and not using the helper, then
+          # maintain the package Javascript so that OpenGraph tags and share
+          # buttons still work.
+          pkgRendered= Template.entrySignIn.rendered
+          userRendered = Template[@template].rendered
 
-        # If the user has a custom template, and not using the helper, then
-        # maintain the package Javascript so that OpenGraph tags and share
-        # buttons still work.
-        pkgRendered= Template.entrySignIn.rendered
-        userRendered = Template[@template].rendered
+          if userRendered
+            Template[@template].rendered = ->
+              pkgRendered.call(@)
+              userRendered.call(@)
+          else
+            Template[@template].rendered = pkgRendered
 
-        if userRendered
-          Template[@template].rendered = ->
-            pkgRendered.call(@)
-            userRendered.call(@)
-        else
-          Template[@template].rendered = pkgRendered
-
-        Template[@template].events(AccountsEntry.entrySignInEvents)
-        Template[@template].helpers(AccountsEntry.entrySignInHelpers)
+          Template[@template].events(AccountsEntry.entrySignInEvents)
+          Template[@template].helpers(AccountsEntry.entrySignInHelpers)
+        @next()
 
 
   @route "entrySignUp",
@@ -42,6 +44,7 @@ Router.map ->
     onBeforeAction: ->
       #Session.set('entryError', undefined)
       Session.set('buttonText', 'up')
+      @next()
     onRun: ->
       Session.set('entryError', undefined)
       if AccountsEntry.settings.signUpTemplate
@@ -62,38 +65,45 @@ Router.map ->
 
         Template[@template].events(AccountsEntry.entrySignUpEvents)
         Template[@template].helpers(AccountsEntry.entrySignUpHelpers)
+      @next()
 
 
   @route "entryForgotPassword",
     path: "/forgot-password"
     onRun: ->
       Session.set('entryError', undefined)
+      @next()
 
   @route 'entrySignOut',
     path: '/sign-out'
     onRun: ->
       console.log("AE:onRun")
       Session.set('entryError', undefined)
-    onBeforeAction: (pause)->
+      @next()
+    onBeforeAction: ->
       #Session.set('entryError', undefined)
       if AccountsEntry?.settings?.homeRoute?
         Meteor.logout () ->
           Router.go AccountsEntry.settings.homeRoute
-      pause()
+      else
+        @next()
+      
 
   @route 'entryResetPassword',
     path: 'reset-password/:resetToken'
     onRun: ->
       console.log("AE:onRun")
       Session.set('entryError', undefined)
+      @next()
     onBeforeAction: ->
       #Session.set('entryError', undefined)
       Session.set('resetToken', @params.resetToken)
+      @next()
 
   # TEP:  Add for it seems the normal URL gets swallowed
   @route 'entryVerifyEmail',
     path: 'verify-email/:token'
-    onBeforeAction: (pause) ->
+    onBeforeAction: ->
       try
         Accounts.verifyEmail @params.token, ->
           console.log("Email Verified")
@@ -103,7 +113,9 @@ Router.map ->
         AccountsEntry?.settings?.verifyEmailCallback?(e)
       if AccountsEntry?.settings?.homeRoute?
         Router.go AccountsEntry.settings.homeRoute
-      pause()
+      else
+        @next()
+      
 
 
 if Meteor.isClient
