@@ -1,6 +1,6 @@
 Package.describe({
     summary: "Make signin and signout their own pages with routes.",
-    version: '0.9.0_7',
+    version: '0.9.0_8',
     name: "pfafman:accounts-entry",
     git: 'https://github.com/pfafman/meteor-accounts-entry'
 });
@@ -21,7 +21,7 @@ Package.onUse(function(api) {
     'ui',
     'session',
     'coffeescript',
-    'joshowens:simple-form@0.1.8',
+    'joshowens:simple-form',
     'less',
     'sha',
     'pfafman:coffee-alerts',
@@ -98,9 +98,9 @@ Package.onTest(function (api) {
     'templating',
     'mongo-livedata',
     'coffeescript',
-    'iron:router@0.9.1', 
-    'mrt:accounts-t9n@0.0.13',
-    'joshowens:simple-form@0.1.8'
+    'iron:router', 
+    'mrt:accounts-t9n',
+    'joshowens:simple-form'
     ]);
   api.use('accounts-entry');
 
