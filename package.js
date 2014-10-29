@@ -1,12 +1,12 @@
 Package.describe({
     summary: "Make signin and signout their own pages with routes.",
-    version: '0.9.0_8',
+    version: '0.9.0_9',
     name: "pfafman:accounts-entry",
     git: 'https://github.com/pfafman/meteor-accounts-entry'
 });
 
 Package.onUse(function(api) {
-  api.versionsFrom("METEOR@0.9.0");
+  api.versionsFrom("METEOR@1.0");
 
   // Not in master
   api.use(['joshowens:simple-form@0.2.0'], ['client', 'server']);
