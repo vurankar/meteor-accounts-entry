@@ -5,7 +5,6 @@ Router.map ->
   @route "entrySignIn",
     path: "/sign-in"
     onBeforeAction: ->
-      console.log("AE:onBeforeAction")
       #Session.set('entryError', undefined)
       Session.set('buttonText', 'in')
       # TEP:  Added to make things work !?!?!
@@ -13,7 +12,6 @@ Router.map ->
       #  Session.set('fromWhere', Router.current().path)
       @next()
     onRun: ->
-      console.log("AE:onRun")
       Session.set('entryError', undefined)
       if Meteor.userId()
         Router.go AccountsEntry.settings.dashboardRoute
@@ -97,7 +95,7 @@ Router.map ->
         @next()
     onStop: ->
       Session.set('entryError', undefined)
-       
+
 
   @route 'entryResetPassword',
     path: 'reset-password/:resetToken'
