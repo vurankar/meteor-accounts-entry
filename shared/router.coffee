@@ -130,7 +130,7 @@ Router.map ->
       Session.set('entryError', undefined)
       
 
-
+###
 if Meteor.isClient
   # Get all the accounts-entry routes one time
   exclusions = []
@@ -138,6 +138,9 @@ if Meteor.isClient
     exclusions.push route.getName()
   # Change the fromWhere session variable when you leave a path
   Router.onStop ->
-    # If the route is an entry route, no need to save it
-    if (!_.contains(exclusions, Router.current().route.name))
-      Session.set('fromWhere', Router.current().path)
+    Tracker.nonreactive ->
+      # If the route is an entry route, no need to save it
+      if (!_.contains(exclusions, Router.current()?.route?.getName?()))
+        console.log("set fromWhere", Iron.Location.get().path, Router.current()?.route?.getName?(), exclusions)
+        Session.set('fromWhere', Iron.Location.get().path)
+###

@@ -32,7 +32,8 @@ AccountsEntry =
     unless Meteor.loggingIn()
       unless Meteor.user() and extraCondition
         if Router.current().route?.getName() not in AccountsEntry.routeNames
-          Session.set('fromWhere', router.route.path())
+          Tracker.nonreactive ->
+            Session.set('fromWhere', Iron.Location.get().path)
           Router.go('/sign-in')
           #Session.set('entryError', T9n.get('error.signInRequired'))
     router.next()
