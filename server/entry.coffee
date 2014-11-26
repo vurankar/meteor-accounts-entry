@@ -20,7 +20,7 @@ Meteor.startup ->
 
     entryCreateUser: (user) ->
       check user, Object
-      profile = AccountsEntry.settings.defaultProfile || {}
+      profile = AccountsEntry.settings.defaultProfile or {}
       if user.username
         userId = Accounts.createUser
           username: user.username,
@@ -33,5 +33,7 @@ Meteor.startup ->
           password: user.password
           profile: _.extend(profile, user.profile)
       if (user.email && Accounts._options.sendVerificationEmail)
-        @unblock()
-        Accounts.sendVerificationEmail(userId, user.email)
+        Meteor.defer ->
+          console.log("Send Verification Email")
+          Accounts.sendVerificationEmail(userId, user.email)
+          console.log("Verification Email Sent")

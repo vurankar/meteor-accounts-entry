@@ -1,6 +1,6 @@
 Package.describe({
     summary: "Make signin and signout their own pages with routes.",
-    version: '0.9.1_5',
+    version: '0.9.2',
     name: "pfafman:accounts-entry",
     git: 'https://github.com/pfafman/meteor-accounts-entry'
 });

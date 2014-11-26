@@ -1,5 +1,5 @@
 Template.entryResetPassword.helpers
-  error: -> 
+  error: ->
     Session.get('entryError')
 
   logo: ->
@@ -39,4 +39,3 @@ Template.entryResetPassword.events
       else
         Session.set('resetToken', null)
         Router.go AccountsEntry.settings.dashboardRoute
-

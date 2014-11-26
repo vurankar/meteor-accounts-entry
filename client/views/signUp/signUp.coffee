@@ -15,7 +15,7 @@ AccountsEntry.entrySignUpHelpers =
 
   showUsername: ->
     fields = AccountsEntry.settings.passwordSignupFields
-    
+
     _.contains([
       'USERNAME_AND_EMAIL',
       'USERNAME_AND_OPTIONAL_EMAIL',
@@ -144,7 +144,9 @@ AccountsEntry.entrySignUpEvents =
           email: email
           password: AccountsEntry.hashPassword(password)
           profile: filteredExtraFields
+        console.log("call entryCreateUser")
         Meteor.call 'entryCreateUser', newUserData, (err, data) ->
+          console.log("entryCreateUser returned")
           if err
             console.log err
             Session.set('entryError', err.reason)
