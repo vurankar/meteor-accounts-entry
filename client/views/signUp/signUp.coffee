@@ -57,6 +57,7 @@ AccountsEntry.entrySignUpHelpers =
 AccountsEntry.entrySignUpEvents =
   'submit #signUp': (event, t) ->
     event.preventDefault()
+    $(".has-error").removeClass('has-error')
 
     username =
       if t.find('input[name="username"]')
@@ -79,7 +80,13 @@ AccountsEntry.entrySignUpEvents =
         trimInput t.find('input[type="email"]').value
       else
         undefined
+    
     if AccountsEntry.settings.emailToLower and email then email = email.toLowerCase()
+
+    if email and not /\@/.test(email)
+      Session.set('entryError', T9n.get("error.invalidEmail"))
+      t.$('input[type="email"]').parent().addClass('has-error')
+      return
 
     formValues = SimpleForm.processForm(event.target)
     extraFields = _.pluck(AccountsEntry.settings.extraSignUpFields, 'field')
@@ -88,28 +95,6 @@ AccountsEntry.entrySignUpEvents =
 
     fields = AccountsEntry.settings.passwordSignupFields
 
-
-    passwordErrors = do (password)->
-      errMsg = []
-      msg = false
-      if password.length < 7
-        errMsg.push T9n.get("error.minChar")
-      if password.search(/[a-z]/i) < 0
-        errMsg.push T9n.get("error.pwOneLetter")
-      if password.search(/[0-9]/) < 0
-        errMsg.push T9n.get("error.pwOneDigit")
-
-      if errMsg.length > 0
-        msg = ""
-        errMsg.forEach (e) ->
-          msg = msg.concat "#{e}\r\n"
-
-        Session.set 'entryError', msg
-        return true
-
-      return false
-
-    if passwordErrors then return
 
     emailRequired = _.contains([
       'USERNAME_AND_EMAIL',
@@ -121,6 +106,7 @@ AccountsEntry.entrySignUpEvents =
 
     if usernameRequired && username.length is 0
       Session.set('entryError', T9n.get("error.usernameRequired"))
+      t.$('input[name="username"]').parent().addClass('has-error')
       return
 
     if username && AccountsEntry.isStringEmail(username)
@@ -129,10 +115,30 @@ AccountsEntry.entrySignUpEvents =
 
     if emailRequired && email.length is 0
       Session.set('entryError', T9n.get("error.emailRequired"))
+      t.$('input[type="email"]').parent().addClass('has-error')
+      return
+
+    errMsg = []
+    msg = false
+    if password.length < 7
+      errMsg.push T9n.get("error.minChar")
+    if password.search(/[a-z]/i) < 0
+      errMsg.push T9n.get("error.pwOneLetter")
+    if password.search(/[0-9]/) < 0
+      errMsg.push T9n.get("error.pwOneDigit")
+
+    if errMsg.length > 0
+      msg = ""
+      errMsg.forEach (e) ->
+        msg = msg.concat "#{e}\r\n"
+
+      Session.set 'entryError', msg
+      t.$('input[type="password"]').parent().addClass('has-error')
       return
 
     if AccountsEntry.settings.showSignupCode && signupCode.length is 0
       Session.set('entryError', T9n.get("error.signupCodeRequired"))
+      t.$('input[name="signupCode"]').parent().addClass('has-error')
       return
 
     Session.set('_accountsEntryProcessing', true)
