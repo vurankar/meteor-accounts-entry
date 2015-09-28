@@ -16,6 +16,7 @@ en =
   ifYouAlreadyHaveAnAccount: "If you already have an account"
   signUpWithYourEmailAddress: "Register with your email address"
   username: "Username"
+  name: "Name"
   optional: "Optional"
   signupCode: "Registration Code"
   clickAgree: "By clicking Register, you agree to our"
