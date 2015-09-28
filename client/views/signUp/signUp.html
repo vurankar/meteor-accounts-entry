@@ -30,6 +30,9 @@
         {{> entryError}}
         {{#if passwordLoginService}}
           <form class="entry-form {{signupClass}}" id='signUp'>
+
+            {{> entryExtraSignUpFields}}
+
             {{#if showUsername}}
               <div class="form-group">
                 <label>{{t9n "username"}}</label>
@@ -61,7 +64,7 @@
               </div>
             {{/if}}
 
-            {{> entryExtraSignUpFields}}
+
             <button type="submit" class="submit btn btn-block btn-default">{{t9n "signUp"}}</button>
           </form>
         {{/if}}

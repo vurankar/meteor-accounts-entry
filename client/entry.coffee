@@ -7,8 +7,10 @@ AccountsEntry =
     emailToLower: true
     usernameToLower: false
     entrySignUp: '/sign-up'
-    extraSignUpFields: []
+    extraSignUpFields: [{field: "name", type: "text", required: true}, {field: "organization", type: "text", required: true}]
     showOtherLoginServices: true
+    #signInAfterRegistration: false
+    #requirePasswordConfirmation: false
 
   routeNames: ["entrySignIn", "entrySignUp", "entryForgotPassword", "entrySignOut", 'entryResetPassword', 'entryVerifyEmail']
 
@@ -37,7 +39,7 @@ AccountsEntry =
           Router.go('/sign-in')
           #Session.set('entryError', T9n.get('error.signInRequired'))
     router.next()
-        
+
 
 @AccountsEntry = AccountsEntry
 
@@ -49,5 +51,3 @@ class @T9NHelper
 
   @accountsError: (err) ->
     Session.set 'entryError', @translate err.reason
-    
-
