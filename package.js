@@ -1,12 +1,12 @@
 Package.describe({
     summary: "Make signin and signout their own pages with routes.",
-    version: '0.9.3',
-    name: "pfafman:accounts-entry",
+    version: '0.9.4',
+    name: "riffyn:accounts-entry",
     git: 'https://github.com/pfafman/meteor-accounts-entry'
 });
 
 Package.onUse(function(api) {
-  api.versionsFrom("METEOR@1.0");
+  api.versionsFrom("1.2");
 
   // Not in master
   api.use(['joshowens:simple-form@0.2.0'], ['client', 'server']);
@@ -97,11 +97,11 @@ Package.onTest(function (api) {
     'templating',
     'mongo-livedata',
     'coffeescript',
-    'iron:router', 
+    'iron:router',
     'mrt:accounts-t9n',
     'joshowens:simple-form@0.2.0'
     ]);
-  api.use('accounts-entry');
+  api.use('riffyn:accounts-entry');
 
   api.addFiles(['tests/route.coffee', 'tests/client.html', 'tests/client.coffee'], 'client');
 })
