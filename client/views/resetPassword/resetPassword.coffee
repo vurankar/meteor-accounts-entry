@@ -9,7 +9,8 @@ Template.entryResetPassword.events
 
   'submit #resetPassword': (event) ->
     event.preventDefault()
-    password = $('input[type="password"]').val()
+    password = $('input[name="password"]').val()
+    confirmPassword = $('input[name="confirmPassword"]').val()
 
     passwordErrors = do (password)->
       errMsg = []
@@ -20,6 +21,8 @@ Template.entryResetPassword.events
         errMsg.push T9n.get("error.pwOneLetter")
       if password.search(/[0-9]/) < 0
         errMsg.push T9n.get("error.pwOneDigit")
+      if password != confirmPassword
+        errMsg.push T9n.get("error.confirmPasswordNotMatch")
 
       if errMsg.length > 0
         msg = ""

@@ -1,8 +1,8 @@
 AccountsEntry =
   settings:
     wrapLinks: true
-    homeRoute: '/home'
-    dashboardRoute: '/dashboard'
+    homeRoute: '/processes'
+    dashboardRoute: '/processes'
     passwordSignupFields: 'EMAIL_ONLY'
     emailToLower: true
     usernameToLower: false
