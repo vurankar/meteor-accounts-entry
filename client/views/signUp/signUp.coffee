@@ -80,7 +80,7 @@ AccountsEntry.entrySignUpEvents =
         trimInput t.find('input[type="email"]').value
       else
         undefined
-    
+
     if AccountsEntry.settings.emailToLower and email then email = email.toLowerCase()
 
     if email and not /\@/.test(email)
@@ -91,7 +91,8 @@ AccountsEntry.entrySignUpEvents =
     formValues = SimpleForm.processForm(event.target)
     extraFields = _.pluck(AccountsEntry.settings.extraSignUpFields, 'field')
     filteredExtraFields = _.pick(formValues, extraFields)
-    password = t.find('input[type="password"]').value
+    password = t.find('input[name="password"]').value
+    confirmPassword = t.find('input[name="confirmPassword"]').value
 
     fields = AccountsEntry.settings.passwordSignupFields
 
@@ -126,6 +127,8 @@ AccountsEntry.entrySignUpEvents =
       errMsg.push T9n.get("error.pwOneLetter")
     if password.search(/[0-9]/) < 0
       errMsg.push T9n.get("error.pwOneDigit")
+    if password != confirmPassword
+      errMsg.push T9n.get("error.confirmPasswordNotMatch")
 
     if errMsg.length > 0
       msg = ""
