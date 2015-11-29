@@ -91,8 +91,8 @@ AccountsEntry.entrySignUpEvents =
     formValues = SimpleForm.processForm(event.target)
     extraFields = _.pluck(AccountsEntry.settings.extraSignUpFields, 'field')
     filteredExtraFields = _.pick(formValues, extraFields)
-    password = t.find('input[name="password"]').value
-    confirmPassword = t.find('input[name="confirmPassword"]').value
+    # password = t.find('input[name="password"]').value
+    # confirmPassword = t.find('input[name="confirmPassword"]').value
 
     fields = AccountsEntry.settings.passwordSignupFields
 
@@ -121,14 +121,14 @@ AccountsEntry.entrySignUpEvents =
 
     errMsg = []
     msg = false
-    if password.length < 7
-      errMsg.push T9n.get("error.minChar")
-    if password.search(/[a-z]/i) < 0
-      errMsg.push T9n.get("error.pwOneLetter")
-    if password.search(/[0-9]/) < 0
-      errMsg.push T9n.get("error.pwOneDigit")
-    if password != confirmPassword
-      errMsg.push T9n.get("error.confirmPasswordNotMatch")
+    # if password.length < 7
+    #   errMsg.push T9n.get("error.minChar")
+    # if password.search(/[a-z]/i) < 0
+    #   errMsg.push T9n.get("error.pwOneLetter")
+    # if password.search(/[0-9]/) < 0
+    #   errMsg.push T9n.get("error.pwOneDigit")
+    # if password != confirmPassword
+    #   errMsg.push T9n.get("error.confirmPasswordNotMatch")
 
     if errMsg.length > 0
       msg = ""
@@ -151,7 +151,7 @@ AccountsEntry.entrySignUpEvents =
         newUserData =
           username: username
           email: email
-          password: AccountsEntry.hashPassword(password)
+          #password: AccountsEntry.hashPassword(password)
           profile: filteredExtraFields
         console.log("call entryCreateUser")
         Meteor.call 'entryCreateUser', newUserData, (err, data) ->
@@ -162,22 +162,26 @@ AccountsEntry.entrySignUpEvents =
             #T9NHelper.accountsError err
             Session.set('_accountsEntryProcessing', false)
             return
-          #login on client
-          isEmailSignUp = _.contains([
-            'USERNAME_AND_EMAIL',
-            'EMAIL_ONLY'], AccountsEntry.settings.passwordSignupFields)
-          userCredential = if isEmailSignUp then email else username
-          Meteor.loginWithPassword userCredential, password, (error) ->
+          else
             Session.set('_accountsEntryProcessing', false)
-            if error
-              console.log err
-              Session.set('entryError', err.reason)
-              #T9NHelper.accountsError error
-            else if Session.get 'fromWhere'
-              Router.go Session.get('fromWhere')
-              Session.set 'fromWhere', undefined
-            else
-              Router.go AccountsEntry.settings.dashboardRoute
+            Router.go "/confirm-email"
+            return
+          #login on client
+          # isEmailSignUp = _.contains([
+          #   'USERNAME_AND_EMAIL',
+          #   'EMAIL_ONLY'], AccountsEntry.settings.passwordSignupFields)
+          # userCredential = if isEmailSignUp then email else username
+          # Meteor.loginWithPassword userCredential, password, (error) ->
+          #   Session.set('_accountsEntryProcessing', false)
+          #   if error
+          #     console.log err
+          #     Session.set('entryError', err.reason)
+          #     #T9NHelper.accountsError error
+          #   else if Session.get 'fromWhere'
+          #     Router.go Session.get('fromWhere')
+          #     Session.set 'fromWhere', undefined
+          #   else
+          #     Router.go AccountsEntry.settings.dashboardRoute
       else
         console.log err
         Session.set 'entryError', T9n.get("error.signupCodeIncorrect")
