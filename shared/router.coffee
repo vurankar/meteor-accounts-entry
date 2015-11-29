@@ -37,7 +37,7 @@ Router.map ->
         @next()
     onStop: ->
       Session.set('entryError', undefined)
-      
+
 
 
   @route "entrySignUp",
@@ -128,7 +128,15 @@ Router.map ->
         @next()
     onStop: ->
       Session.set('entryError', undefined)
-      
+
+  @route "entryConfirmEmail",
+    path: "/confirm-email"
+    onRun: ->
+      Session.set('entryError', undefined)
+      @next()
+    onStop: ->
+      Session.set('entryError', undefined)
+
 
 ###
 if Meteor.isClient

@@ -42,6 +42,8 @@ Package.onUse(function(api) {
     'client/views/signUp/extraSignUpFields.coffee',
     'client/views/forgotPassword/forgotPassword.html',
     'client/views/forgotPassword/forgotPassword.coffee',
+    'client/views/confirmEmail/confirmEmail.html',
+    'client/views/confirmEmail/confirmEmail.coffee',
     'client/views/resetPassword/resetPassword.html',
     'client/views/resetPassword/resetPassword.coffee',
     'client/views/social/social.html',
