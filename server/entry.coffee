@@ -11,21 +11,21 @@ Meteor.startup ->
   Accounts.emailTemplates.enrollAccount.subject = (user) ->
     'Welcome to Riffyn, ' + user.profile.name
 
-  Accounts.emailTemplates.enrollAccount.html = (user, url) ->
-    "
-    <html><body>
-    Hello #{user.profile.name}
-    We’re so excited for you to start exploring the Riffyn app. To finish your account creation
-    you need to set your password by clicking the link below. Once you’ve set your password,
-    we hope you’ll spend some time getting to know Riffyn. If you have any questions please feel
-    free to drop us a line by replying to this email.
-
-    Set your password here: <a href=\"#{url}\">here</a>
-
-    Thank you,
-    The Riffyn Team
-    </body></html>
-    "
+  # Accounts.emailTemplates.enrollAccount.html = (user, url) ->
+  #   "
+  #   <html><body>
+  #   Hello #{user.profile.name}
+  #   We’re so excited for you to start exploring the Riffyn app. To finish your account creation
+  #   you need to set your password by clicking the link below. Once you’ve set your password,
+  #   we hope you’ll spend some time getting to know Riffyn. If you have any questions please feel
+  #   free to drop us a line by replying to this email.
+  #
+  #   Set your password here: <a href=\"#{url}\">here</a>
+  #
+  #   Thank you,
+  #   The Riffyn Team
+  #   </body></html>
+  #   "
 
   AccountsEntry =
     settings: {}
