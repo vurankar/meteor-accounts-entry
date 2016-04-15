@@ -1,5 +1,4 @@
 Package.describe({
-    name: "pfafman:accounts-entry",
     summary: "Make signin and signout their own pages with routes.",
     version: '0.9.4',
     name: "riffyn:accounts-entry",
@@ -10,14 +9,16 @@ Package.onUse(function(api) {
   api.versionsFrom("1.2");
 
   // Not in master
-  api.use(['joshowens:simple-form@0.2.2'], ['client', 'server']);
+  api.use(['joshowens:simple-form@0.2.0'], ['client', 'server']);
 
   // CLIENT
   api.use([
     'deps',
     'service-configuration',
     'accounts-base',
+    'underscore',
     'templating',
+    'ui',
     'session',
     'coffeescript',
     'less',
@@ -83,7 +84,7 @@ Package.onUse(function(api) {
   api.imply('accounts-password', ['client', 'server']);
   api.export('AccountsEntry', ['client', 'server']);
 
-  api.use(['iron:router@1.0.0', 'softwarerero:accounts-t9n@1.1.0'], ['client', 'server']);
+  api.use(['iron:router@1.0.0', 'mrt:accounts-t9n'], ['client', 'server']);
 
   api.addFiles(['shared/router.coffee'], ['client', 'server']);
 
@@ -92,13 +93,15 @@ Package.onUse(function(api) {
 Package.onTest(function (api) {
   api.use([
     'tinytest',
+    'ui',
     'underscore',
     'test-helpers',
     'templating',
+    'mongo-livedata',
     'coffeescript',
     'iron:router',
     'mrt:accounts-t9n',
-    'joshowens:simple-form@0.2.2'
+    'joshowens:simple-form@0.2.0'
     ]);
   api.use('riffyn:accounts-entry');
 
