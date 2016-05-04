@@ -40,6 +40,14 @@ Meteor.startup ->
       check signupCode, Match.OneOf(String, null, undefined)
       not AccountsEntry.settings.signupCode or signupCode is AccountsEntry.settings.signupCode
 
+    entryValidateDomain: (email) ->
+      check email, String
+      domain = email.split("@")[1]
+      org = Organizations.findOne({domain: domain})
+      unless org
+        return false
+      return true
+
     entryCreateUser: (user) ->
       check user, Object
       profile = AccountsEntry.settings.defaultProfile or {}
