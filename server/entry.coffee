@@ -44,7 +44,7 @@ Meteor.startup ->
       check email, String
       domain = email.split("@")[1]
       org = Organizations.findOne({domain: domain})
-      unless org
+      unless org and org.deactivated != true
         return false
       return true
 
