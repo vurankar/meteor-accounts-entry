@@ -35,8 +35,11 @@ en =
   "Incorrect password": "Invalid username and/or password"
 
   error:
-    minChar: "7 character minimum password."
-    pwOneLetter: "Password requires 1 letter."
+    minChar: "Passwords are required to be at least 8 characters long."
+    maxChar: "Passwords cannot be more than 24 characters long."
+    pwOneUppercaseLetter: "Passwords are required to contain 1 upper case letter."
+    pwOneLowercaseLetter: "Passwords are required to contain 1 lower case letter."
+    pwOneSpecialCharacter: "Passwords are required to contain 1 of these special characters . ! @ # $ % ^ & "
     pwOneDigit: "Password must have at least one digit."
     confirmPasswordNotMatch: "Confirm password does not match"
     usernameRequired: "Username is required."
