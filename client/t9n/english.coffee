@@ -31,7 +31,8 @@ en =
   createAccount: "Create an Account"
   and: "and"
   "Match failed":  "Match failed"
-  "User not found":  "User not found"
+  "User not found":  "Invalid username and/or password"
+  "Incorrect password": "Invalid username and/or password"
 
   error:
     minChar: "7 character minimum password."
