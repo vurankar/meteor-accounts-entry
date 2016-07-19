@@ -15,12 +15,18 @@ Template.entryResetPassword.events
     passwordErrors = do (password)->
       errMsg = []
       msg = false
-      if password.length < 7
+      if password.length < 8
         errMsg.push T9n.get("error.minChar")
-      if password.search(/[a-z]/i) < 0
-        errMsg.push T9n.get("error.pwOneLetter")
+      if password.length > 24
+        errMsg.push T9n.get("error.maxChar")
+      if password.search(/[a-z]/) < 0
+        errMsg.push T9n.get("error.pwOneLowercaseLetter")
+      if password.search(/[A-Z]/) < 0
+        errMsg.push T9n.get("error.pwOneUppercaseLetter")
       if password.search(/[0-9]/) < 0
         errMsg.push T9n.get("error.pwOneDigit")
+      if password.search(/[\!\@\#\$\%\^\&\.]/) < 0
+        errMsg.push T9n.get("error.pwOneSpecialCharacter")
       if password != confirmPassword
         errMsg.push T9n.get("error.confirmPasswordNotMatch")
 
