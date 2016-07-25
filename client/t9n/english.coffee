@@ -49,6 +49,6 @@ en =
     signInRequired: "You must be signed in to do that."
     usernameIsEmail: "Username cannot be an email address."
     invalidEmail: "Email is not valid"
-    domainNotRegistered: "Sorry, it seems that email domain is not registered with Riffyn.  Please use the email address that is associated with your organization.  Please contact support@riffyn.com if you believe something is amiss or if you would like to obtain a new account. (Please include your phone number if you prefer a call back.)"
+    domainNotRegistered: "Please use the email address that is associated with your organization.  Please contact support@riffyn.com if you believe something is amiss or if you would like to obtain a new account. (Please include your phone number if you prefer a call back.)"
 
 T9n.map "en", en
