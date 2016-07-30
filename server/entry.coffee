@@ -40,19 +40,29 @@ Meteor.startup ->
       check signupCode, Match.OneOf(String, null, undefined)
       not AccountsEntry.settings.signupCode or signupCode is AccountsEntry.settings.signupCode
 
+    entryValidateDomain: (email) ->
+      check email, String
+      domain = email.split("@")[1]
+      org = Organizations.findOne({domain: domain})
+      unless org and org.deactivated != true and org.selfRegister == true
+        return false
+      return true
+
     entryCreateUser: (user) ->
       check user, Object
+      domain = user.email.split("@")[1]
+      org = Organizations.findOne({domain: domain})
       profile = AccountsEntry.settings.defaultProfile or {}
       if user.username
         userId = Accounts.createUser
           username: user.username,
           email: user.email,
-          #password: user.password,
+          org: {_id: org._id, name: org.name}
           profile: _.extend(profile, user.profile)
       else
         userId = Accounts.createUser
           email: user.email
-          #password: user.password
+          org: {_id: org._id, name: org.name}
           profile: _.extend(profile, user.profile)
 
       Accounts.sendEnrollmentEmail(userId, user.email)

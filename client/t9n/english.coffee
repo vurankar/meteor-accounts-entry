@@ -31,11 +31,15 @@ en =
   createAccount: "Create an Account"
   and: "and"
   "Match failed":  "Match failed"
-  "User not found":  "User not found"
+  "User not found":  "Invalid username and/or password"
+  "Incorrect password": "Invalid username and/or password"
 
   error:
-    minChar: "7 character minimum password."
-    pwOneLetter: "Password requires 1 letter."
+    minChar: "Passwords are required to be at least 8 characters long."
+    maxChar: "Passwords cannot be more than 24 characters long."
+    pwOneUppercaseLetter: "Passwords are required to contain 1 upper case letter."
+    pwOneLowercaseLetter: "Passwords are required to contain 1 lower case letter."
+    pwOneSpecialCharacter: "Passwords are required to contain 1 of these special characters . ! @ # $ % ^ & "
     pwOneDigit: "Password must have at least one digit."
     confirmPasswordNotMatch: "Confirm password does not match"
     usernameRequired: "Username is required."
@@ -45,5 +49,6 @@ en =
     signInRequired: "You must be signed in to do that."
     usernameIsEmail: "Username cannot be an email address."
     invalidEmail: "Email is not valid"
+    domainNotRegistered: "Please use the email address that is associated with your organization.  Please contact support@riffyn.com if you believe something is amiss or if you would like to obtain a new account. (Please include your phone number if you prefer a call back.)"
 
 T9n.map "en", en

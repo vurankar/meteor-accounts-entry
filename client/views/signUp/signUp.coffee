@@ -146,8 +146,50 @@ AccountsEntry.entrySignUpEvents =
 
     Session.set('_accountsEntryProcessing', true)
 
-    Meteor.call 'entryValidateSignupCode', signupCode, (err, valid) ->
-      if valid
+    # Meteor.call 'entryValidateSignupCode', signupCode, (err, valid) ->
+    #   if valid
+    #     newUserData =
+    #       username: username
+    #       email: email
+    #       #password: AccountsEntry.hashPassword(password)
+    #       profile: filteredExtraFields
+    #     console.log("call entryCreateUser")
+    #     Meteor.call 'entryCreateUser', newUserData, (err, data) ->
+    #       console.log("entryCreateUser returned")
+    #       if err
+    #         console.log err
+    #         Session.set('entryError', err.reason)
+    #         #T9NHelper.accountsError err
+    #         Session.set('_accountsEntryProcessing', false)
+    #         return
+    #       else
+    #         Session.set('_accountsEntryProcessing', false)
+    #         Router.go "/confirm-email"
+    #         return
+    #       #login on client
+    #       # isEmailSignUp = _.contains([
+    #       #   'USERNAME_AND_EMAIL',
+    #       #   'EMAIL_ONLY'], AccountsEntry.settings.passwordSignupFields)
+    #       # userCredential = if isEmailSignUp then email else username
+    #       # Meteor.loginWithPassword userCredential, password, (error) ->
+    #       #   Session.set('_accountsEntryProcessing', false)
+    #       #   if error
+    #       #     console.log err
+    #       #     Session.set('entryError', err.reason)
+    #       #     #T9NHelper.accountsError error
+    #       #   else if Session.get 'fromWhere'
+    #       #     Router.go Session.get('fromWhere')
+    #       #     Session.set 'fromWhere', undefined
+    #       #   else
+    #       #     Router.go AccountsEntry.settings.dashboardRoute
+    #   else
+    #     console.log err
+    #     Session.set 'entryError', T9n.get("error.signupCodeIncorrect")
+    #     Session.set('_accountsEntryProcessing', false)
+    #     return
+
+    Meteor.call 'entryValidateDomain', email, (err, org) ->
+      if org
         newUserData =
           username: username
           email: email
@@ -166,25 +208,9 @@ AccountsEntry.entrySignUpEvents =
             Session.set('_accountsEntryProcessing', false)
             Router.go "/confirm-email"
             return
-          #login on client
-          # isEmailSignUp = _.contains([
-          #   'USERNAME_AND_EMAIL',
-          #   'EMAIL_ONLY'], AccountsEntry.settings.passwordSignupFields)
-          # userCredential = if isEmailSignUp then email else username
-          # Meteor.loginWithPassword userCredential, password, (error) ->
-          #   Session.set('_accountsEntryProcessing', false)
-          #   if error
-          #     console.log err
-          #     Session.set('entryError', err.reason)
-          #     #T9NHelper.accountsError error
-          #   else if Session.get 'fromWhere'
-          #     Router.go Session.get('fromWhere')
-          #     Session.set 'fromWhere', undefined
-          #   else
-          #     Router.go AccountsEntry.settings.dashboardRoute
       else
         console.log err
-        Session.set 'entryError', T9n.get("error.signupCodeIncorrect")
+        Session.set 'entryError', T9n.get("error.domainNotRegistered")
         Session.set('_accountsEntryProcessing', false)
         return
 

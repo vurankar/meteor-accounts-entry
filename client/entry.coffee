@@ -7,7 +7,7 @@ AccountsEntry =
     emailToLower: true
     usernameToLower: false
     entrySignUp: '/sign-up'
-    extraSignUpFields: [{field: "name", type: "text", required: true}, {field: "organization", type: "text", required: true}]
+    extraSignUpFields: [{field: "name", type: "text", required: true}]
     showOtherLoginServices: true
     #signInAfterRegistration: false
     #requirePasswordConfirmation: false
