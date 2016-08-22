@@ -48,7 +48,8 @@ Template.entryResetPassword.events
       else
         Session.set('resetToken', null)
         if not Meteor.user().profile?.onboarding?.gettingStarted
-          Router.go "/docs/getting-started.html"
+          # Router.go "/docs/getting-started.html"
+          Router.go AccountsEntry.settings.dashboardRoute
           Meteor.users.update(Meteor.user()._id, {$set: {"profile.onboarding.gettingStarted": true}})
         else
           Router.go AccountsEntry.settings.dashboardRoute
