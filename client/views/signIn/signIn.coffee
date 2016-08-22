@@ -46,7 +46,8 @@ AccountsEntry.entrySignInEvents = {
         Session.set('entryError', T9n.get(error.reason))
         #T9NHelper.accountsError error
       else if not Meteor.user().profile?.onboarding?.gettingStarted
-        Router.go "/docs/getting-started.html"
+        # Router.go "/docs/getting-started.html"
+        Router.go AccountsEntry.settings.dashboardRoute
         Meteor.users.update(Meteor.user()._id, {$set: {"profile.onboarding.gettingStarted": true}})
       else if Session.get('fromWhere')
         Router.go Session.get('fromWhere')
