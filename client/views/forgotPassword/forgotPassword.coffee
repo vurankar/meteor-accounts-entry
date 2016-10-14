@@ -20,14 +20,12 @@ Template.entryForgotPassword.events
       return
 
     Session.set('_accountsEntryProcessing', true)
-    
+
     Accounts.forgotPassword
       email: Session.get('email')
     , (error)->
       if error
         Session.set('entryError', error.reason)
       else
-        CoffeeAlerts.success('An email was sent with a link to reset your password')
         Router.go AccountsEntry.settings.homeRoute
       Session.set('_accountsEntryProcessing', false)
-    

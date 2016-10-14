@@ -23,7 +23,6 @@ Package.onUse(function(api) {
     'coffeescript',
     'less',
     'sha',
-    'pfafman:coffee-alerts',
     'sacha:spin'
   ], 'client');
 
