@@ -36,8 +36,11 @@ AccountsEntry =
         if Router.current().route?.getName() not in AccountsEntry.routeNames
           Tracker.nonreactive ->
             Session.set('fromWhere', Iron.Location.get().path)
-          Router.go('/sign-in')
+          #Router.go('/sign-in')
           #Session.set('entryError', T9n.get('error.signInRequired'))
+          Meteor.loginWithOkta({}, () ->
+            console.log "redirecting to Okta"
+          )
     router.next()
 
 
