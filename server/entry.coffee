@@ -11,6 +11,11 @@ Meteor.startup ->
   Accounts.emailTemplates.enrollAccount.subject = (user) ->
     'Welcome to Riffyn, ' + user.profile.name
 
+  ##On Meteor startup save okta service config including client id and secret
+  oktaService = Meteor.settings.private.oAuth.okta
+  if oktaService
+    ServiceConfiguration.configurations.upsert( { service: "okta" }, {
+      $set: oktaService})
   # Accounts.emailTemplates.enrollAccount.html = (user, url) ->
   #   "
   #   <html><body>
@@ -65,7 +70,10 @@ Meteor.startup ->
           org: {_id: org._id, name: org.name}
           profile: _.extend(profile, user.profile)
 
-      Accounts.sendEnrollmentEmail(userId, user.email)
+      #Send local user activation email.
+      #specially useful when there is no internet connection
+      if process.env.RUN_ENV == "local"
+        Accounts.sendEnrollmentEmail(userId, user.email)
       # if (user.email && Accounts._options.sendVerificationEmail)
       #   Meteor.defer ->
       #     console.log("Send Verification Email")
