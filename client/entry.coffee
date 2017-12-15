@@ -36,11 +36,15 @@ AccountsEntry =
         if Router.current().route?.getName() not in AccountsEntry.routeNames
           Tracker.nonreactive ->
             Session.set('fromWhere', Iron.Location.get().path)
-          #Router.go('/sign-in')
+
           #Session.set('entryError', T9n.get('error.signInRequired'))
-          Meteor.loginWithOkta({}, () ->
-            console.log "redirecting to Okta"
-          )
+          if Meteor.settings && Meteor.settings.public && Meteor.settings.public.useIDP == "local"
+            Router.go('/sign-in')
+          else
+            Meteor.loginWithOkta({}, () ->
+              console.log "redirecting to Okta"
+            )
+
     router.next()
 
 

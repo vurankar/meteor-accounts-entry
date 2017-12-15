@@ -72,7 +72,7 @@ Meteor.startup ->
 
       #Send local user activation email.
       #specially useful when there is no internet connection
-      if process.env.RUN_ENV == "local"
+      if process.env.USE_IDP == "local"
         Accounts.sendEnrollmentEmail(userId, user.email)
       # if (user.email && Accounts._options.sendVerificationEmail)
       #   Meteor.defer ->
