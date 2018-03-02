@@ -152,3 +152,12 @@ if Meteor.isClient
         console.log("set fromWhere", Iron.Location.get().path, Router.current()?.route?.getName?(), exclusions)
         Session.set('fromWhere', Iron.Location.get().path)
 ###
+
+
+if Meteor.isClient
+  #catch onlogin failures and redirect to static error page
+  Accounts.onLoginFailure (err) ->
+    console.log("on login error:" + JSON.stringify(err))
+    errno = err?.error?.error
+    if errno == 418 or errno == Accounts.LoginCancelledError.numericError
+      Router.go 'othervpc'
