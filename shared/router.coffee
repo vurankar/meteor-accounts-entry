@@ -2,82 +2,82 @@
 
 Router.map ->
 
-  @route "entrySignIn",
-    path: "/sign-in"
-    onBeforeAction: ->
-      #Session.set('entryError', undefined)
-      Session.set('buttonText', 'in')
-      # TEP:  Added to make things work !?!?!
-      #if Router.current().route?.getName() not in AccountsEntry.routeNames
-      #  Session.set('fromWhere', Router.current().path)
-      @next()
-    onRun: ->
-      Session.set('entryError', undefined)
-      if Meteor.userId()
-        Router.go AccountsEntry.settings.dashboardRoute
-      else
-        if AccountsEntry.settings.signInTemplate
-          @template = AccountsEntry.settings.signInTemplate
+  # @route "entrySignIn",
+  #   path: "/sign-in"
+  #   onBeforeAction: ->
+  #     #Session.set('entryError', undefined)
+  #     Session.set('buttonText', 'in')
+  #     # TEP:  Added to make things work !?!?!
+  #     #if Router.current().route?.getName() not in AccountsEntry.routeNames
+  #     #  Session.set('fromWhere', Router.current().path)
+  #     @next()
+  #   onRun: ->
+  #     Session.set('entryError', undefined)
+  #     if Meteor.userId()
+  #       Router.go AccountsEntry.settings.dashboardRoute
+  #     else
+  #       if AccountsEntry.settings.signInTemplate
+  #         @template = AccountsEntry.settings.signInTemplate
 
-          # If the user has a custom template, and not using the helper, then
-          # maintain the package Javascript so that OpenGraph tags and share
-          # buttons still work.
-          pkgRendered= Template.entrySignIn.rendered
-          userRendered = Template[@template].rendered
+  #         # If the user has a custom template, and not using the helper, then
+  #         # maintain the package Javascript so that OpenGraph tags and share
+  #         # buttons still work.
+  #         pkgRendered= Template.entrySignIn.rendered
+  #         userRendered = Template[@template].rendered
 
-          if userRendered
-            Template[@template].rendered = ->
-              pkgRendered.call(@)
-              userRendered.call(@)
-          else
-            Template[@template].rendered = pkgRendered
+  #         if userRendered
+  #           Template[@template].rendered = ->
+  #             pkgRendered.call(@)
+  #             userRendered.call(@)
+  #         else
+  #           Template[@template].rendered = pkgRendered
 
-          Template[@template].events(AccountsEntry.entrySignInEvents)
-          Template[@template].helpers(AccountsEntry.entrySignInHelpers)
-        @next()
-    onStop: ->
-      Session.set('entryError', undefined)
-
-
-
-  @route "entrySignUp",
-    path: "/sign-up"
-    onBeforeAction: ->
-      #Session.set('entryError', undefined)
-      Session.set('buttonText', 'up')
-      @next()
-    onRun: ->
-      Session.set('entryError', undefined)
-      if AccountsEntry.settings.signUpTemplate
-        @template = AccountsEntry.settings.signUpTemplate
-
-        # If the user has a custom template, and not using the helper, then
-        # maintain the package Javascript so that OpenGraph tags and share
-        # buttons still work.
-        pkgRendered= Template.entrySignUp.rendered
-        userRendered = Template[@template].rendered
-
-        if userRendered
-          Template[@template].rendered = ->
-            pkgRendered.call(@)
-            userRendered.call(@)
-        else
-          Template[@template].rendered = pkgRendered
-
-        Template[@template].events(AccountsEntry.entrySignUpEvents)
-        Template[@template].helpers(AccountsEntry.entrySignUpHelpers)
-      @next()
-    onStop: ->
-      Session.set('entryError', undefined)
+  #         Template[@template].events(AccountsEntry.entrySignInEvents)
+  #         Template[@template].helpers(AccountsEntry.entrySignInHelpers)
+  #       @next()
+  #   onStop: ->
+  #     Session.set('entryError', undefined)
 
 
-  @route "entryForgotPassword",
-    path: "/forgot-password"
-    onRun: ->
-      Session.set('entryError', undefined)
-      @next()
-    onStop: ->
-      Session.set('entryError', undefined)
+
+  # @route "entrySignUp",
+  #   path: "/sign-up"
+  #   onBeforeAction: ->
+  #     #Session.set('entryError', undefined)
+  #     Session.set('buttonText', 'up')
+  #     @next()
+  #   onRun: ->
+  #     Session.set('entryError', undefined)
+  #     if AccountsEntry.settings.signUpTemplate
+  #       @template = AccountsEntry.settings.signUpTemplate
+
+  #       # If the user has a custom template, and not using the helper, then
+  #       # maintain the package Javascript so that OpenGraph tags and share
+  #       # buttons still work.
+  #       pkgRendered= Template.entrySignUp.rendered
+  #       userRendered = Template[@template].rendered
+
+  #       if userRendered
+  #         Template[@template].rendered = ->
+  #           pkgRendered.call(@)
+  #           userRendered.call(@)
+  #       else
+  #         Template[@template].rendered = pkgRendered
+
+  #       Template[@template].events(AccountsEntry.entrySignUpEvents)
+  #       Template[@template].helpers(AccountsEntry.entrySignUpHelpers)
+  #     @next()
+  #   onStop: ->
+  #     Session.set('entryError', undefined)
+
+
+  # @route "entryForgotPassword",
+  #   path: "/forgot-password"
+  #   onRun: ->
+  #     Session.set('entryError', undefined)
+  #     @next()
+  #   onStop: ->
+  #     Session.set('entryError', undefined)
 
 
   @route 'entrySignOut',
