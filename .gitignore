@@ -2,3 +2,9 @@
 _site/
 .bundle/
 vendor/
+*.iml
+.idea
+packages
+*.lock
+*.sublime-workspace
+*.sublime-project

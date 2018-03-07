@@ -1,56 +1,108 @@
 Package.describe({
-    summary: "Make signin and signout their own pages with routes."
+    summary: "Make signin and signout their own pages with routes.",
+    version: '0.9.4',
+    name: "riffyn:accounts-entry",
+    git: 'https://github.com/pfafman/meteor-accounts-entry'
 });
 
-Package.on_use(function(api) {
+Package.onUse(function(api) {
+  api.versionsFrom("1.2");
+
+  // Not in master
+  api.use(['joshowens:simple-form@0.2.0'], ['client', 'server']);
+
+  // CLIENT
   api.use([
     'deps',
     'service-configuration',
     'accounts-base',
     'underscore',
     'templating',
-    'handlebars',
-    'spark',
+    'ui',
     'session',
     'coffeescript',
-    'less']
-  , 'client');
+    'less',
+    'sha',
+    'sacha:spin'
+  ], 'client');
 
-  api.imply('accounts-base', ['client', 'server']);
 
-  api.add_files([
-    'shared/start.coffee',
-    'sign-in/signIn.html',
-    'sign-in/signIn.coffee',
-    'sign-up/signUp.html',
-    'sign-up/signUp.coffee',
-    'forgot-password/forgotPassword.html',
-    'forgot-password/forgotPassword.coffee',
-    'reset-password/resetPassword.html',
-    'reset-password/resetPassword.coffee',
-    'shared/social.html',
-    'shared/social.coffee',
-    'shared/error.html',
-    'shared/error.coffee',
-    'shared/accountButtons.html',
-    'shared/accountButtons.coffee',
-    'entry.less',
-    'helper.js']
-  , 'client');
+  api.addFiles([
+    'client/entry.coffee',
+    'client/entry.less',
+    'client/helpers.coffee',
+    'client/views/lib/processing.html',
+    'client/views/lib/processing.less',
+    'client/views/signIn/signIn.html',
+    'client/views/signIn/signIn.coffee',
+    'client/views/signUp/signUp.html',
+    'client/views/signUp/signUp.coffee',
+    'client/views/signUp/extraSignUpFields.html',
+    'client/views/signUp/extraSignUpFields.coffee',
+    'client/views/forgotPassword/forgotPassword.html',
+    'client/views/forgotPassword/forgotPassword.coffee',
+    'client/views/confirmEmail/confirmEmail.html',
+    'client/views/confirmEmail/confirmEmail.coffee',
+    'client/views/resetPassword/resetPassword.html',
+    'client/views/resetPassword/resetPassword.coffee',
+    'client/views/social/social.html',
+    'client/views/social/social.coffee',
+    'client/views/error/error.html',
+    'client/views/error/error.coffee',
+    'client/views/accountButtons/accountButtons.html',
+    'client/views/accountButtons/_wrapLinks.html',
+    'client/views/accountButtons/signedIn.html',
+    'client/views/accountButtons/accountButtons.coffee',
+    'client/t9n/english.coffee',
+    'client/t9n/french.coffee',
+    'client/t9n/german.coffee',
+    'client/t9n/italian.coffee',
+    'client/t9n/polish.coffee',
+    'client/t9n/spanish.coffee',
+    'client/t9n/swedish.coffee',
+    'client/t9n/portuguese.coffee',
+    'client/t9n/slovene.coffee',
+    'client/t9n/russian.coffee',
+    'client/t9n/arabic.coffee'
+  ], 'client');
 
+  // SERVER
   api.use([
     'deps',
     'service-configuration',
     'accounts-password',
     'accounts-base',
     'underscore',
-    'coffeescript']
-  , 'server');
+    'coffeescript'
+  ], 'server');
 
+  api.addFiles(['server/entry.coffee'], 'server');
+
+  // CLIENT and SERVER
+  api.imply('accounts-base', ['client', 'server']);
+  api.imply('accounts-password', ['client', 'server']);
   api.export('AccountsEntry', ['client', 'server']);
-  api.add_files('entry.coffee', 'server');
 
-  api.use('iron-router', ['client', 'server']);
-  api.add_files('router.coffee', ['client', 'server']);
-  api.add_files('server/accountsUrl.coffee', 'server');
+  api.use(['iron:router@1.0.0', 'mrt:accounts-t9n'], ['client', 'server']);
+
+  api.addFiles(['shared/router.coffee'], ['client', 'server']);
+
 });
+
+Package.onTest(function (api) {
+  api.use([
+    'tinytest',
+    'ui',
+    'underscore',
+    'test-helpers',
+    'templating',
+    'mongo-livedata',
+    'coffeescript',
+    'iron:router',
+    'mrt:accounts-t9n',
+    'joshowens:simple-form@0.2.0'
+    ]);
+  api.use('riffyn:accounts-entry');
+
+  api.addFiles(['tests/route.coffee', 'tests/client.html', 'tests/client.coffee'], 'client');
+})
