@@ -1,7 +1,7 @@
-Template.entryConfirmEmail.helpers
-  error: ->
-    if Session.get('entryError')?
-      Session.get('entryError')
+# Template.entryConfirmEmail.helpers
+#   error: ->
+#     if Session.get('entryError')?
+#       Session.get('entryError')
 
-  logo: ->
-    AccountsEntry.settings.logo
+#   logo: ->
+#     AccountsEntry.settings.logo

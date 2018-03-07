@@ -129,13 +129,13 @@ Router.map ->
     onStop: ->
       Session.set('entryError', undefined)
 
-  @route "entryConfirmEmail",
-    path: "/confirm-email"
-    onRun: ->
-      Session.set('entryError', undefined)
-      @next()
-    onStop: ->
-      Session.set('entryError', undefined)
+  # @route "entryConfirmEmail",
+  #   path: "/confirm-email"
+  #   onRun: ->
+  #     Session.set('entryError', undefined)
+  #     @next()
+  #   onStop: ->
+  #     Session.set('entryError', undefined)
 
 
 ###
