@@ -97,18 +97,18 @@ Router.map ->
       Session.set('entryError', undefined)
 
 
-  @route 'entryResetPassword',
-    path: 'reset-password/:resetToken'
-    onRun: ->
-      console.log("AE:onRun")
-      Session.set('entryError', undefined)
-      @next()
-    onBeforeAction: ->
-      #Session.set('entryError', undefined)
-      Session.set('resetToken', @params.resetToken)
-      @next()
-    onStop: ->
-      Session.set('entryError', undefined)
+  # @route 'entryResetPassword',
+  #   path: 'reset-password/:resetToken'
+  #   onRun: ->
+  #     console.log("AE:onRun")
+  #     Session.set('entryError', undefined)
+  #     @next()
+  #   onBeforeAction: ->
+  #     #Session.set('entryError', undefined)
+  #     Session.set('resetToken', @params.resetToken)
+  #     @next()
+  #   onStop: ->
+  #     Session.set('entryError', undefined)
 
 
   # TEP:  Add for it seems the normal URL gets swallowed
