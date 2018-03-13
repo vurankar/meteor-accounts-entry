@@ -39,14 +39,6 @@ AccountsEntry =
 
           #Session.set('entryError', T9n.get('error.signInRequired'))
           Router.go('/sign-in')
-          # if Meteor.settings && Meteor.settings.public && Meteor.settings.public.useIDP == "local"
-          #   Router.go('/sign-in')
-          # else
-          #   Meteor.loginWithOkta({}, () ->
-          #     console.log "redirecting to Okta"
-          #   )
-
-    # router.next()
 
 
 @AccountsEntry = AccountsEntry
