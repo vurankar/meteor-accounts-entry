@@ -5,6 +5,9 @@ Router.map ->
   @route "entrySignIn",
     path: "/sign-in"
     onBeforeAction: ->
+      if Meteor.settings.public.useIDP != 'local'
+        @render 'OktaSignIn'
+        return
       #Session.set('entryError', undefined)
       Session.set('buttonText', 'in')
       # TEP:  Added to make things work !?!?!
