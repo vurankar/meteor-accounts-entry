@@ -40,7 +40,6 @@ AccountsEntry =
           #Session.set('entryError', T9n.get('error.signInRequired'))
           Router.go('/sign-in')
 
-
 @AccountsEntry = AccountsEntry
 
 
