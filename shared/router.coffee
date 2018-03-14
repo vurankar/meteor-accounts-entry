@@ -162,5 +162,5 @@ if Meteor.isClient
   Accounts.onLoginFailure (err) ->
     console.log("on login error:" + JSON.stringify(err))
     errno = err?.error?.error
-    if errno == 418 or errno == Accounts.LoginCancelledError.numericError
+    if errno == 418 or errno == 401
       Router.go 'othervpc'

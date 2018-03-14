@@ -72,10 +72,36 @@ Meteor.startup ->
 
       #Send local user activation email.
       #specially useful when there is no internet connection
-      if process.env.USE_IDP == "local"
+      if Meteor.settings.public.useIDP == "local"
         Accounts.sendEnrollmentEmail(userId, user.email)
       # if (user.email && Accounts._options.sendVerificationEmail)
       #   Meteor.defer ->
       #     console.log("Send Verification Email")
       #     Accounts.sendVerificationEmail(userId, user.email)
       #     console.log("Verification Email Sent")
+
+    ###
+    TODO: move this method to the new package along with accounts-entry migration
+    ###
+    entryForgotPassword: (email) ->
+      if not email
+        throw new Meteor.Error(500, "Email cannot be blank")
+
+      syncForgotPassword = Meteor.wrapAsync(OktaClient.forgotPassword)
+      resp = syncForgotPassword email
+
+      user = Meteor.users.findOne({"emails.address":email});
+
+      if !resp or !user
+        throw new Meteor.Error(500, "User not found")
+
+      link = resp.resetPasswordUrl + "?fromURI=" + Meteor.absoluteUrl()
+      emailBody = Accounts.emailTemplates.forgotPasswordOkta
+      emailBody = emailBody.replace("FIRSTNAME", user.profile.name).replace("USERNAME", email).replace("PASSWORDRESET_LINK", link)
+
+      Email.send({
+        to: email,
+        from: "no-reply@riffyn.com",
+        subject: "Riffyn forgot password",
+        html: emailBody
+      })

@@ -21,11 +21,24 @@ Template.entryForgotPassword.events
 
     Session.set('_accountsEntryProcessing', true)
 
-    Accounts.forgotPassword
-      email: Session.get('email')
-    , (error)->
-      if error
-        Session.set('entryError', error.reason)
-      else
-        Router.go AccountsEntry.settings.homeRoute
-      Session.set('_accountsEntryProcessing', false)
+    if Meteor.settings.public.useIDP == "local"
+      #reset local password
+      Accounts.forgotPassword
+        email: Session.get('email')
+      , (error)->
+        if error
+          Session.set('entryError', error.reason)
+        else
+          Router.go AccountsEntry.settings.homeRoute
+        Session.set('_accountsEntryProcessing', false)
+    else
+      #reset okta password
+      Meteor.call('entryForgotPassword',Session.get('email'), (err, data) ->
+        if err
+          Session.set('entryError', "Failed to reset password")
+        else
+          Session.set('_accountsEntryProcessing', false)
+          Router.go('/confirm-email');
+
+      )
+
