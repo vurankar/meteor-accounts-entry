@@ -15,6 +15,10 @@ Router.map ->
       #  Session.set('fromWhere', Router.current().path)
       @next()
     onRun: ->
+      if Meteor.settings.public.useIDP != 'local'
+        @render 'OktaSignIn'
+        return
+        
       Session.set('entryError', undefined)
       if Meteor.userId()
         Router.go AccountsEntry.settings.dashboardRoute
