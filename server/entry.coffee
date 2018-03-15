@@ -12,7 +12,8 @@ Meteor.startup ->
     'Welcome to Riffyn, ' + user.profile.name
 
   ##On Meteor startup save okta service config including client id and secret
-  oktaService = Meteor.settings.private.oAuth.okta
+  oktaService = Meteor.settings.public.okta
+
   if oktaService
     ServiceConfiguration.configurations.upsert( { service: "okta" }, {
       $set: oktaService})
