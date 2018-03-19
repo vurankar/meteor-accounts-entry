@@ -83,21 +83,33 @@ Meteor.startup ->
       if not email
         throw new Meteor.Error(500, "Email cannot be blank")
 
-      syncForgotPassword = Meteor.wrapAsync(OktaClient.forgotPassword)
-      resp = syncForgotPassword email
-
       user = Meteor.users.findOne({"emails.address": email});
 
-      if !resp or !user
+      if !user
         throw new Meteor.Error(500, "User not found")
 
-      link = "#{resp.resetPasswordUrl}?fromURI=#{Meteor.absoluteUrl()}"
-      emailBody = Accounts.emailTemplates.forgotPasswordOkta
-      emailBody = emailBody.replace("FIRSTNAME", user.profile.name).replace("USERNAME", email).replace("PASSWORDRESET_LINK", link)
+      syncResetPassword = Meteor.wrapAsync(OktaClient.resetPassword)
 
-      Email.send({
-        to: email,
-        from: "no-reply@riffyn.com",
-        subject: "Riffyn forgot password",
-        html: emailBody
-      })
+      OktaClient.forgotPassword email, (err, forgotPwd) ->
+        if err
+          if err.errorCode == "E0000017" or err.errorCode == "E0000034"
+            console.log "Forgot password failed for user #{email} trying reset password"
+            resetPwd = syncResetPassword email
+
+        if forgotPwd and forgotPwd.resetPasswordUrl
+          link = "#{forgotPwd.resetPasswordUrl}?fromURI=#{Meteor.absoluteUrl()}"
+        else if resetPwd and resetPwd.resetPasswordUrl
+          link = "#{resetPwd.resetPasswordUrl}?fromURI=#{Meteor.absoluteUrl()}"
+        else
+          console.log "Forgot password and Reset password failed for #{email}"
+          throw new Meteor.Error(500, "Forgot password failed")
+
+        emailBody = Accounts.emailTemplates.forgotPasswordOkta
+        emailBody = emailBody.replace("FIRSTNAME", user.profile.name).replace("USERNAME", email).replace("PASSWORDRESET_LINK", link)
+
+        Email.send({
+          to: email,
+          from: "no-reply@riffyn.com",
+          subject: "Riffyn forgot password",
+          html: emailBody
+        })
