@@ -36,9 +36,10 @@ Template.entryForgotPassword.events
       Meteor.call('entryForgotPassword',Session.get('email'), (err, data) ->
         if err
           Session.set('entryError', "Failed to reset password")
-        else
-          Session.set('_accountsEntryProcessing', false)
-          Router.go('/confirm-email');
+          console.log "Forgot password failed for #{Session.get('email')} with error #{JSON.toString(err)}"
+        Router.go('/confirm-email');
+        Session.set('_accountsEntryProcessing', false)
+
 
       )
 
