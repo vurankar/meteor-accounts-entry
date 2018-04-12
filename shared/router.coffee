@@ -5,6 +5,9 @@ Router.map ->
   @route "entrySignIn",
     path: "/sign-in"
     onBeforeAction: ->
+      if Meteor.settings.public.useIDP != 'local'
+        @render 'OktaSignIn'
+        return
       #Session.set('entryError', undefined)
       Session.set('buttonText', 'in')
       # TEP:  Added to make things work !?!?!
@@ -12,6 +15,10 @@ Router.map ->
       #  Session.set('fromWhere', Router.current().path)
       @next()
     onRun: ->
+      if Meteor.settings.public.useIDP != 'local'
+        @render 'OktaSignIn'
+        return
+        
       Session.set('entryError', undefined)
       if Meteor.userId()
         Router.go AccountsEntry.settings.dashboardRoute
@@ -152,3 +159,12 @@ if Meteor.isClient
         console.log("set fromWhere", Iron.Location.get().path, Router.current()?.route?.getName?(), exclusions)
         Session.set('fromWhere', Iron.Location.get().path)
 ###
+
+
+if Meteor.isClient
+  #catch onlogin failures and redirect to static error page
+  Accounts.onLoginFailure (err) ->
+    console.log("on login error:" + JSON.stringify(err))
+    errno = err?.error?.error
+    if errno == 418 or errno == 401
+      Router.go 'othervpc'

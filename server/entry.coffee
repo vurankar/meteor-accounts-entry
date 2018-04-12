@@ -11,6 +11,12 @@ Meteor.startup ->
   Accounts.emailTemplates.enrollAccount.subject = (user) ->
     'Welcome to Riffyn, ' + user.profile.name
 
+  ##On Meteor startup save okta service config including client id and secret
+  oktaService = Meteor.settings.public.okta
+
+  if oktaService
+    ServiceConfiguration.configurations.upsert( { service: "okta" }, {
+      $set: oktaService})
   # Accounts.emailTemplates.enrollAccount.html = (user, url) ->
   #   "
   #   <html><body>
@@ -65,9 +71,45 @@ Meteor.startup ->
           org: {_id: org._id, name: org.name}
           profile: _.extend(profile, user.profile)
 
-      Accounts.sendEnrollmentEmail(userId, user.email)
-      # if (user.email && Accounts._options.sendVerificationEmail)
-      #   Meteor.defer ->
-      #     console.log("Send Verification Email")
-      #     Accounts.sendVerificationEmail(userId, user.email)
-      #     console.log("Verification Email Sent")
+      #Send local user activation email.
+      #specially useful when there is no internet connection
+      if Meteor.settings.public.useIDP == "local"
+        Accounts.sendEnrollmentEmail(userId, user.email)
+
+    ###
+    TODO: move this method to the new package along with accounts-entry migration
+    ###
+    entryForgotPassword: (email) ->
+      if not email
+        throw new Meteor.Error(500, "Email cannot be blank")
+
+      user = Meteor.users.findOne({"emails.address": email});
+
+      if !user
+        throw new Meteor.Error(500, "User not found")
+
+      syncResetPassword = Meteor.wrapAsync(OktaClient.resetPassword)
+
+      OktaClient.forgotPassword email, (err, forgotPwd) ->
+        if err
+          if err.errorCode == "E0000017" or err.errorCode == "E0000034"
+            console.log "Forgot password failed for user #{email} trying reset password"
+            resetPwd = syncResetPassword email
+
+        if forgotPwd and forgotPwd.resetPasswordUrl
+          link = "#{forgotPwd.resetPasswordUrl}?fromURI=#{Meteor.absoluteUrl()}"
+        else if resetPwd and resetPwd.resetPasswordUrl
+          link = "#{resetPwd.resetPasswordUrl}?fromURI=#{Meteor.absoluteUrl()}"
+        else
+          console.log "Forgot password and Reset password failed for #{email}"
+          throw new Meteor.Error(500, "Forgot password failed")
+
+        emailBody = Accounts.emailTemplates.forgotPasswordOkta
+        emailBody = emailBody.replace("FIRSTNAME", user.profile.name).replace("USERNAME", email).replace("PASSWORDRESET_LINK", link)
+
+        Email.send({
+          to: email,
+          from: "no-reply@riffyn.com",
+          subject: "Riffyn forgot password",
+          html: emailBody
+        })
