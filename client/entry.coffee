@@ -36,10 +36,9 @@ AccountsEntry =
         if Router.current().route?.getName() not in AccountsEntry.routeNames
           Tracker.nonreactive ->
             Session.set('fromWhere', Iron.Location.get().path)
-          Router.go('/sign-in')
-          #Session.set('entryError', T9n.get('error.signInRequired'))
-    router.next()
 
+          #Session.set('entryError', T9n.get('error.signInRequired'))
+          Router.go('/sign-in')
 
 @AccountsEntry = AccountsEntry
 
