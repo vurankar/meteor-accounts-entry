@@ -83,7 +83,7 @@ Meteor.startup ->
       if not email
         throw new Meteor.Error(500, "Email cannot be blank")
 
-      user = Meteor.users.findOne({"emails.address": email});
+      user = Meteor.users.findOne({"emails.address": email.toLowerCase()});
 
       if !user
         throw new Meteor.Error(500, "User not found")
