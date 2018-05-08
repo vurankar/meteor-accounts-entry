@@ -83,7 +83,8 @@ Meteor.startup ->
       if not email
         throw new Meteor.Error(500, "Email cannot be blank")
 
-      user = Meteor.users.findOne({"emails.address": email});
+      regEx = new RegExp("^" + lodash.escapeRegExp(email) + "$", "i")
+      user = Meteor.users.findOne({"emails.address": regEx})
 
       if !user
         throw new Meteor.Error(500, "User not found")
